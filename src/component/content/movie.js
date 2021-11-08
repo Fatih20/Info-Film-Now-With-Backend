@@ -62,7 +62,7 @@ const ButtonContainerLargeScreen = styled(ButtonContainer)`
     z-index: 2;
 
     @media(min-width: 901px){
-        ${Main}:hover &{
+        ${ImageContainer}:hover &{
         display: flex
     }
     }
