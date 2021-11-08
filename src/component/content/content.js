@@ -55,7 +55,6 @@ const BackButton = styled(VanillaButton)`
     font-size: 15px;
     margin: 20px auto 0 auto;
     padding: 10px 15px;
-    transition: all 0.2s;
 
     &:hover {
         background-color: #4e4e4e;
