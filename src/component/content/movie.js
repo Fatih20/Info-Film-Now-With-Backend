@@ -41,6 +41,10 @@ const Overlay = styled.div`
     ${ImageContainer}:hover &{
         background-color: rgba(0, 0, 0, 0.5);
     }
+
+    @media(max-width: 900px){
+        display: none;
+    }
 `;
 
 const ButtonContainer = styled.div`
@@ -49,9 +53,13 @@ const ButtonContainer = styled.div`
     display: none;
     flex-direction: column;
     gap: 15px;
+    padding: 10px;
+    width: 100%; 
+`;
+
+const ButtonContainerLargeScreen = styled(ButtonContainer)`
     height: 100%;
     justify-content: center;
-    padding: 10px;
     position: absolute;
     top: 0;
     width: 100%; 
@@ -59,6 +67,19 @@ const ButtonContainer = styled.div`
 
     ${Main}:hover &{
         display: flex
+    }
+
+    @media(max-width: 900px){
+        display: none;
+    }
+`;
+
+const ButtonContainerSmallScreen = styled(ButtonContainer)`
+    display: flex;
+
+
+    @media(min-width: 900px){
+        display: none;
     }
 `;
 
@@ -97,14 +118,18 @@ function Movie ({movie : { poster_path, title, release_date }, changeToSummary})
         <Main>
             <ImageContainer>
                 <Overlay />
-                <ButtonContainer>
+                <ButtonContainerLargeScreen>
                     <WishlistButton>Add to Wishlist</WishlistButton>
                     <SummaryButton onClick={changeToSummary}>About the Movie</SummaryButton>
-                </ButtonContainer>
+                </ButtonContainerLargeScreen>
                 <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
             </ImageContainer>
             <MovieTitle>{title}</MovieTitle>
             <MovieYear>{release_date.slice(0, 4)}</MovieYear>
+            <ButtonContainerSmallScreen>
+                <WishlistButton>Add to Wishlist</WishlistButton>
+                <SummaryButton onClick={changeToSummary}>About the Movie</SummaryButton>
+            </ButtonContainerSmallScreen>
         </Main>
     )
 }
