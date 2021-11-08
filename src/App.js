@@ -3,12 +3,17 @@ import Content from './component/content/content';
 
 import { GlobalTransition } from './GlobalComponent';
 
+import { WishlistProvider } from './component/context/WishlistContext';
+
 function App() {
   return (
     <>
-      <GlobalTransition />
-      <Header />
-      <Content />
+      <WishlistProvider>
+        <GlobalTransition />
+        <Header />
+        <Content />
+      </WishlistProvider>
+      
     </>
   );
 }

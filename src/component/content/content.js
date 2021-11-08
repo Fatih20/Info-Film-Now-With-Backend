@@ -8,6 +8,9 @@ import Summary from './summary';
 
 import { VanillaButton } from '../../GlobalComponent';
 
+import { useAddToWishlist } from '../context/WishlistContext';
+
+
 const MainIsList = css`
     flex-direction: row;
     flex-wrap: wrap;
@@ -67,6 +70,8 @@ function Content (){
     const[isList, setIsList] = useState(true);
     const examinedMovie = useRef({});
     const userPositionInList = useRef({positionX: 0, positionY:0});
+
+    const addToWishlist = useAddToWishlist();
     
     async function getMovieList(){
         const response = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`);
@@ -77,7 +82,6 @@ function Content (){
 
     useEffect(()=>{
         getMovieList().then(movieData => {
-            console.log(movieData);
             setMovieData(movieData)});
     }, []);
 
@@ -99,7 +103,7 @@ function Content (){
 
     function movieMaker (movie){
         return (
-            <Movie key={movie.poster_path} movie={movie} changeToSummary={() => changeToSummary(movie)}/>
+            <Movie key={movie.poster_path} movie={movie} changeToSummary={() => changeToSummary(movie)} addToWishlist={()=> addToWishlist(movie)}/>
         )
      }
     
