@@ -26,8 +26,8 @@ const Main = styled.div`
     background-color: #1a1a1a;
     display: flex;
     padding: 20px;
-    ${({isList})=>{
-        if (isList){
+    ${({typeOfContent})=>{
+        if (typeOfContent === "list" || typeOfContent === "wishlist"){
             return MainIsList;
         } else {
             return MainIsSummary;
@@ -67,7 +67,7 @@ const BackButton = styled(VanillaButton)`
 
 function Content (){
     const[movieData, setMovieData] = useState([]);
-    const[isList, setIsList] = useState(true);
+    const[typeOfContent, setTypeOfContent] = useState("list");
     const examinedMovie = useRef({});
     const userPositionInList = useRef({positionX: 0, positionY:0});
 
@@ -86,19 +86,19 @@ function Content (){
     }, []);
 
     useEffect(() => {
-        if (isList){
+        if (typeOfContent === "list"){
             window.scrollTo(userPositionInList.current.positionX, userPositionInList.current.positionY);
         }
-    }, [isList])
+    }, [typeOfContent])
 
     function changeToSummary(movie){
         userPositionInList.current = {positionX : window.scrollX, positionY : window.scrollY}
         examinedMovie.current = movie;
-        setIsList(prevIsList => !prevIsList);
+        setTypeOfContent("summary");
     }
 
     function changeToList(){
-        setIsList(prevIsList => !prevIsList);
+        setTypeOfContent("list");
     }
 
     function movieMaker (movie){
@@ -107,15 +107,15 @@ function Content (){
         )
      }
     
-    if (isList){
+    if (typeOfContent === "list"){
         return(
-            <Main isList={isList}>
+            <Main typeOfContent={typeOfContent}>
                 {movieData.map(movieMaker)}
             </Main>
         )
-    } else {
+    } else if (typeOfContent === "summary") {
         return (
-            <Main isList={isList}>
+            <Main typeOfContent={typeOfContent}>
                 <ExplanationContainer>
                     <Summary movie={examinedMovie.current} />
                     <BackButton onClick={changeToList}>Return to the movie list</BackButton>
