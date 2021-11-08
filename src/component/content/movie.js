@@ -50,7 +50,7 @@ const ButtonContainer = styled.div`
     flex-direction: column;
     gap: 15px;
     padding: 10px;
-    width: 100%; 
+    width: 100%;
 `;
 
 const ButtonContainerLargeScreen = styled(ButtonContainer)`
