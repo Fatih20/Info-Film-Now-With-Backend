@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Info-Film-React-Edition/static/css/main.f1bf91c3.chunk.css",
+    "main.js": "/Info-Film-React-Edition/static/js/main.55faa51d.chunk.js",
+    "main.js.map": "/Info-Film-React-Edition/static/js/main.55faa51d.chunk.js.map",
+    "runtime-main.js": "/Info-Film-React-Edition/static/js/runtime-main.0d393db1.js",
+    "runtime-main.js.map": "/Info-Film-React-Edition/static/js/runtime-main.0d393db1.js.map",
+    "static/js/2.1bdf4454.chunk.js": "/Info-Film-React-Edition/static/js/2.1bdf4454.chunk.js",
+    "static/js/2.1bdf4454.chunk.js.map": "/Info-Film-React-Edition/static/js/2.1bdf4454.chunk.js.map",
+    "static/js/3.93336506.chunk.js": "/Info-Film-React-Edition/static/js/3.93336506.chunk.js",
+    "static/js/3.93336506.chunk.js.map": "/Info-Film-React-Edition/static/js/3.93336506.chunk.js.map",
+    "index.html": "/Info-Film-React-Edition/index.html",
+    "static/css/main.f1bf91c3.chunk.css.map": "/Info-Film-React-Edition/static/css/main.f1bf91c3.chunk.css.map",
+    "static/js/2.1bdf4454.chunk.js.LICENSE.txt": "/Info-Film-React-Edition/static/js/2.1bdf4454.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0d393db1.js",
+    "static/js/2.1bdf4454.chunk.js",
+    "static/css/main.f1bf91c3.chunk.css",
+    "static/js/main.55faa51d.chunk.js"
+  ]
+}
