@@ -29,7 +29,11 @@ const Main = styled.div`
         } else {
             return MainIsSummary;
         }
-    }}
+    }};
+
+    @media(max-width: 400px){
+        padding: 20px 5px;
+    }
 `;
 
 const ExplanationContainer = styled.div`
@@ -39,6 +43,10 @@ const ExplanationContainer = styled.div`
     margin: 0 auto;
     max-width: 1280px;
     padding: 30px;
+
+    @media(max-width: 900px){
+        border: none;
+    }
 `;
 
 const BackButton = styled(VanillaButton)`
