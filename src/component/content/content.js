@@ -47,7 +47,7 @@ const ExplanationContainer = styled.div`
     flex-direction: column;
     margin: 0 auto;
     max-width: 1280px;
-    padding: 30px;
+    padding: 10px 10px 50px 10px;
 
     @media(max-width: 900px){
         border: none;
@@ -55,6 +55,23 @@ const ExplanationContainer = styled.div`
 `;
 
 const BackButton = styled(VanillaButton)`
+    border-radius: 5px;
+    display: block;
+    font-size: 15px;
+    margin: 20px auto 0 auto;
+    padding: 10px 15px;
+
+    &:hover{
+        background-color: #4e4e4e;
+        color: #fafafa;
+    }
+
+    & > * {
+        vertical-align: middle;
+    }
+`;
+
+const BackButtonArrow = styled(VanillaButton)`
     background-color: #fafafa;
     border-radius: 50%;
     bottom: 20px;
@@ -122,6 +139,8 @@ function Content (){
     useEffect(() => {
         if (typeOfContent === "list"){
             window.scrollTo(userPositionInList.current.positionX, userPositionInList.current.positionY);
+        } else if (typeOfContent === "summary"){
+            window.scrollTo(0, 0);
         }
     }, [typeOfContent])
 
@@ -162,9 +181,7 @@ function Content (){
             <Main typeOfContent={typeOfContent}>
                 <ExplanationContainer>
                     <Summary movie={examinedMovie.current} />
-                    <BackButton onClick={changeToList}>
-                        <FontAwesomeIcon icon="arrow-left" />
-                    </BackButton>
+                    <BackButton onClick={changeToList}>Return to The Movie List</BackButton>
                 </ExplanationContainer>
             </Main>
         )
@@ -172,9 +189,9 @@ function Content (){
         return (
             <>
                 <Wishlist />
-                <BackButton onClick={changeToList}>
+                <BackButtonArrow onClick={changeToList}>
                     <FontAwesomeIcon icon="arrow-left" />
-                </BackButton>
+                </BackButtonArrow>
             </>
         )
     }
