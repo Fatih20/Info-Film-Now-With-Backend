@@ -40,7 +40,7 @@ export function WishlistProvider({ children }){
             let i = 0;
             for (const movieInWishlist of prevWishlist){
                 if (JSON.stringify(movie) === JSON.stringify(movieInWishlist)){
-                    return wishlist.splice(i, 1);
+                    return prevWishlist.slice(0, i).concat(wishlist.slice(i+1, wishlist.length));
                 }
                 i = i+1;
             }

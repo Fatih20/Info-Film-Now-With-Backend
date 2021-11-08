@@ -5,11 +5,13 @@ import { API_KEY, IMAGE_URL } from "../../config";
 
 import Movie from './movie';
 import Summary from './summary';
+import Wishlist from './wishlist';
 
 import { VanillaButton } from '../../GlobalComponent';
 
 import { useAddToWishlist } from '../context/WishlistContext';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const MainIsList = css`
     flex-direction: row;
@@ -52,17 +54,62 @@ const ExplanationContainer = styled.div`
     }
 `;
 
-const BackButton = styled(VanillaButton)`
-    border-radius: 5px;
-    display: block;
-    font-size: 15px;
-    margin: 20px auto 0 auto;
-    padding: 10px 15px;
+// const BackButton = styled(VanillaButton)`
+//     border-radius: 5px;
+//     display: block;
+//     font-size: 15px;
+//     margin: 20px auto 0 auto;
+//     padding: 10px 15px;
 
-    &:hover {
+//     &:hover {
+//         background-color: #4e4e4e;
+//         color: #fafafa;
+//     }
+// `;
+
+const BackButton = styled(VanillaButton)`
+    background-color: #fafafa;
+    border-radius: 50%;
+    bottom: 20px;
+    color: #4e4e4e;
+    font-size: 32px;
+    height: 75px;
+    left: 20px;
+    position: fixed;
+    width: 75px;
+    z-index: 10;
+
+    &:hover{
         background-color: #4e4e4e;
         color: #fafafa;
     }
+
+    & > * {
+        vertical-align: middle;
+    }
+`;
+
+const WishlistButton = styled(VanillaButton)`
+    background-color: #fafafa;
+    border-radius: 50%;
+    bottom: 20px;
+    color: #4e4e4e;
+    font-size: 32px;
+    height: 75px;
+    left: 20px;
+    position: fixed;
+    width: 75px;
+    z-index: 10;
+
+    &:hover{
+        background-color: #4e4e4e;
+        color: #fafafa;
+    }
+
+    & > * {
+        vertical-align: middle;
+    }
+
 `;
 
 function Content (){
@@ -101,6 +148,10 @@ function Content (){
         setTypeOfContent("list");
     }
 
+    function changeToWishlist(){
+        setTypeOfContent("wishlist")
+    }
+
     function movieMaker (movie){
         return (
             <Movie key={movie.poster_path} movie={movie} changeToSummary={() => changeToSummary(movie)} addToWishlist={()=> addToWishlist(movie)}/>
@@ -109,18 +160,34 @@ function Content (){
     
     if (typeOfContent === "list"){
         return(
-            <Main typeOfContent={typeOfContent}>
-                {movieData.map(movieMaker)}
-            </Main>
+            <>
+                <WishlistButton onClick={changeToWishlist}>
+                    <FontAwesomeIcon icon="shopping-cart" />
+                </WishlistButton>
+                <Main typeOfContent={typeOfContent}>
+                    {movieData.map(movieMaker)}
+                </Main>
+            </>
         )
     } else if (typeOfContent === "summary") {
         return (
             <Main typeOfContent={typeOfContent}>
                 <ExplanationContainer>
                     <Summary movie={examinedMovie.current} />
-                    <BackButton onClick={changeToList}>Return to the movie list</BackButton>
+                    <BackButton onClick={changeToList}>
+                        <FontAwesomeIcon icon="arrow-left" />
+                    </BackButton>
                 </ExplanationContainer>
             </Main>
+        )
+    } else if (typeOfContent === "wishlist"){
+        return (
+            <>
+                <Wishlist />
+                <BackButton onClick={changeToList}>
+                    <FontAwesomeIcon icon="arrow-left" />
+                </BackButton>
+            </>
         )
     }
 };

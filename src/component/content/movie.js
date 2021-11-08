@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { css } from "styled-components";
 
-import { API_KEY, IMAGE_URL } from "../../config";
+import { IMAGE_URL } from "../../config";
 import { VanillaButton } from '../../GlobalComponent';
 
 const Main = styled.div`
@@ -25,10 +25,6 @@ const MoviePoster = styled.img`
 const MovieYear = styled.p`
 `;
 
-const Spacer = styled.div`
-    flex-grow: 1;
-`;
-
 const ImageContainer = styled.div`
     position: relative;
 `;
@@ -37,7 +33,7 @@ const Overlay = styled.div`
     position: absolute;
     height: 100%;
     width: 100%;
-    z-index: 5;
+    z-index: 1;
     ${ImageContainer}:hover &{
         background-color: rgba(0, 0, 0, 0.5);
     }
@@ -63,7 +59,7 @@ const ButtonContainerLargeScreen = styled(ButtonContainer)`
     position: absolute;
     top: 0;
     width: 100%; 
-    z-index: 10;
+    z-index: 2;
 
     @media(min-width: 901px){
         ${Main}:hover &{
