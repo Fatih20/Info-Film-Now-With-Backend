@@ -54,19 +54,6 @@ const ExplanationContainer = styled.div`
     }
 `;
 
-// const BackButton = styled(VanillaButton)`
-//     border-radius: 5px;
-//     display: block;
-//     font-size: 15px;
-//     margin: 20px auto 0 auto;
-//     padding: 10px 15px;
-
-//     &:hover {
-//         background-color: #4e4e4e;
-//         color: #fafafa;
-//     }
-// `;
-
 const BackButton = styled(VanillaButton)`
     background-color: #fafafa;
     border-radius: 50%;
@@ -139,7 +126,7 @@ function Content (){
     }, [typeOfContent])
 
     function changeToSummary(movie){
-        userPositionInList.current = {positionX : window.scrollX, positionY : window.scrollY}
+        userPositionInList.current = {positionX : window.scrollX, positionY : window.scrollY};
         examinedMovie.current = movie;
         setTypeOfContent("summary");
     }
@@ -149,7 +136,8 @@ function Content (){
     }
 
     function changeToWishlist(){
-        setTypeOfContent("wishlist")
+        userPositionInList.current = {positionX : window.scrollX, positionY : window.scrollY};
+        setTypeOfContent("wishlist");
     }
 
     function movieMaker (movie){

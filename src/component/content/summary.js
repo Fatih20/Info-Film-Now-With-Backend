@@ -5,6 +5,7 @@ import { API_KEY, IMAGE_URL } from "../../config";
 
 const Main = styled.div`
     display: flex;
+    padding-bottom: 20px;
     @media(max-width: 900px){
         align-items: center;
         flex-direction: column;
