@@ -79,7 +79,7 @@ function Content() {
 
   function goToWishlist() {
     saveUserPosition();
-    navigate(`${BASE_CLIENT_URL}/wishlist`);
+    navigate(`wishlist`);
   }
 
   function movieMaker(movie: movies) {
