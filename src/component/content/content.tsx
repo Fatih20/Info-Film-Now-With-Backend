@@ -34,15 +34,15 @@ const Main = styled.div`
 `;
 
 const ExplanationContainer = styled.div`
-  border-bottom: #fafafa 1px solid;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   max-width: 1280px;
   padding: 10px 10px 50px 10px;
 
-  @media (max-width: 900px) {
-    border: none;
+  border: none;
+  @media (min-width: 900px) {
+    border-bottom: #fafafa 1px solid;
   }
 `;
 

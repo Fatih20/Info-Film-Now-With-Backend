@@ -39,6 +39,7 @@ const ImageContainer = styled.div`
 `;
 
 const Overlay = styled.div`
+  display: none;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -47,8 +48,8 @@ const Overlay = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  @media (max-width: 900px) {
-    display: none;
+  @media (min-width: 900px) {
+    display: initial;
   }
 `;
 
@@ -63,6 +64,7 @@ const ButtonContainer = styled.div`
 `;
 
 const ButtonContainerLargeScreen = styled(ButtonContainer)`
+  display: none;
   height: 100%;
   justify-content: center;
   position: absolute;
@@ -70,20 +72,17 @@ const ButtonContainerLargeScreen = styled(ButtonContainer)`
   width: 100%;
   z-index: 2;
 
-  @media (min-width: 901px) {
+  @media (min-width: 900px) {
     ${ImageContainer}:hover & {
       display: flex;
     }
-  }
-  @media (max-width: 900px) {
-    display: none;
   }
 `;
 
 const ButtonContainerSmallScreen = styled(ButtonContainer)`
   display: flex;
 
-  @media (min-width: 901px) {
+  @media (min-width: 900px) {
     display: none;
   }
 

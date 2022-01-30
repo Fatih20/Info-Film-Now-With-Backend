@@ -17,12 +17,12 @@ const Main = styled.div`
 
 const Title = styled.h2`
   color: #fafafa;
-  font-size: 45px;
+  font-size: 35px;
   margin-bottom: 20px;
   text-align: center;
 
-  @media (max-width: 500px) {
-    font-size: 35px;
+  @media (min-width: 500px) {
+    font-size: 45px;
   }
 `;
 
@@ -38,13 +38,8 @@ const WishlistContainer = styled.div`
   & > * {
     width: 100%;
   }
-
-  @media (max-width: 900px) {
+  @media (min-width: 600px) {
     padding: 20px;
-  }
-
-  @media (max-width: 500px) {
-    padding: 0;
   }
 `;
 
@@ -60,22 +55,17 @@ const WishlistObject = styled.div`
 `;
 
 const MoviePoster = styled.img`
-  height: 150px;
-
-  @media (max-width: 500px) {
-    height: 125px;
+  height: 125px;
+  @media (min-width: 600px) {
+    height: 150px;
   }
 `;
 
 const MovieTitle = styled.h2`
   color: #fafafa;
-
-  @media (max-width: 500px) {
+  font-size: 16px;
+  @media (min-width: 600px) {
     font-size: 20px;
-  }
-
-  @media (max-width: 400px) {
-    font-size: 16px;
   }
 `;
 
@@ -85,24 +75,21 @@ const Spacer = styled.div`
 
 const DeleteButton = styled(VanillaButton)`
   background-color: rgba(0, 0, 0, 0);
-  font-size: 30px;
   color: #fafafa;
-  visibility: hidden;
+  font-size: 20px;
   margin-right: 20px;
+  visibility: visible;
 
   &:hover {
     color: #ed5353;
   }
 
-  @media (min-width: 901px) {
+  @media (min-width: 900px) {
     ${WishlistObject}:hover & {
       visibility: visible;
     }
-  }
-
-  @media (max-width: 900px) {
-    font-size: 20px;
-    visibility: visible;
+    font-size: 30px;
+    visibility: hidden;
   }
 `;
 

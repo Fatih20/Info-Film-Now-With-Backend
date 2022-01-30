@@ -11,9 +11,11 @@ import { useUserPositionInList } from "../context/PositionInListContext";
 const Main = styled.div`
   display: flex;
   padding-bottom: 20px;
-  @media (max-width: 900px) {
-    align-items: center;
-    flex-direction: column;
+  align-items: center;
+  flex-direction: column;
+  @media (min-width: 900px) {
+    align-items: initial;
+    flex-direction: row;
   }
 `;
 
@@ -21,51 +23,53 @@ const DescriptionContainer = styled.div`
   color: #fafafa;
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
+  padding: 0;
 
-  @media (max-width: 900px) {
-    padding: 0;
+  @media (min-width: 900px) {
+    padding-left: 20px;
   }
 `;
 
 const MovieTitle = styled.h2`
-  font-size: 60px;
-  @media (max-width: 900px) {
+  font-size: 35px;
+  text-align: center;
+  @media (min-width: 400px) {
     font-size: 50px;
-    text-align: center;
   }
-
-  @media (max-width: 400px) {
-    font-size: 35px;
+  @media (min-width: 900px) {
+    font-size: 60px;
+    text-align: initial;
   }
 `;
 
 const MovieDate = styled.p`
   font-size: 18px;
-  @media (max-width: 900px) {
-    text-align: center;
+  text-align: center;
+  @media (min-width: 900px) {
+    text-align: initial;
   }
 `;
 
 const MovieOverview = styled.p`
-  font-size: 19px;
   line-height: 1.4;
   margin: 15px 0px;
+  font-size: 17px;
+  text-align: center;
 
-  @media (max-width: 600px) {
-    font-size: 17px;
-  }
-
-  @media (max-width: 500px) {
-    text-align: center;
+  @media (min-width: 600px) {
+    font-size: 19px;
+    text-align: initial;
   }
 `;
 
 const MoviePoster = styled.img`
-  @media (max-width: 900px) {
-    margin-bottom: 20px;
-    max-width: 300px;
-    width: 100%;
+  margin-bottom: 20px;
+  max-width: 300px;
+  width: 100%;
+  @media (min-width: 900px) {
+    margin-bottom: 0;
+    max-width: none;
+    width: initial;
   }
 `;
 

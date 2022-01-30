@@ -20,10 +20,6 @@ const Main = styled.div`
 const Logo = styled.img`
   margin-top: 10px;
   max-width: 150px;
-
-  @media (max-width: 400px) {
-    margin-top: 10px;
-  }
 `;
 
 const Title = styled.h1``;
