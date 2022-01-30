@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
-import { API_KEY, IMAGE_URL } from "../../config";
-import { movies } from "../../utils/types";
-import { BackButton, BackButtonArrow } from "../../GlobalComponent";
+import { IMAGE_URL } from "../../config";
+import { BackButton } from "../../GlobalComponent";
 
 import { useNavigate } from "react-router";
 import { useSelectedMovieContext } from "../context/SelectedMovieContext";
