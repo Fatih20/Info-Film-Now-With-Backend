@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { VanillaButton, BackButtonArrow } from "../../GlobalComponent";
 import { movies } from "../../utils/types";
 import { useNavigate } from "react-router";
+import { BASE_CLIENT_URL } from "../../routes";
+import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Main = styled.div`
   padding: 20px;
@@ -118,7 +120,7 @@ function Wishlist() {
         <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
         <Spacer />
         <DeleteButton onClick={() => removeFromWishlist(movie)}>
-          <FontAwesomeIcon icon="trash" />
+          <FontAwesomeIcon icon={faTrash} />
         </DeleteButton>
       </WishlistObject>
     );
@@ -130,8 +132,8 @@ function Wishlist() {
       <WishlistContainer>
         {wishlist.map(wishlistObjectGenerator)}
       </WishlistContainer>
-      <BackButtonArrow onClick={() => navigate("/")}>
-        <FontAwesomeIcon icon="arrow-left" />
+      <BackButtonArrow onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
+        <FontAwesomeIcon icon={faArrowLeft} />
       </BackButtonArrow>
     </Main>
   );

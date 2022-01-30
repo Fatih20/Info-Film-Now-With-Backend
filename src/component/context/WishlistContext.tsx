@@ -42,7 +42,7 @@ export function WishlistProvider({
 
   useEffect(() => {
     localStorage.setItem("Wishlist", JSON.stringify(wishlist));
-    console.log(wishlist);
+    // console.log(wishlist);
   }, [wishlist]);
 
   // localStorage.removeItem("Wishlist");

@@ -14,6 +14,10 @@ import { useAddToWishlist } from "../context/WishlistContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import usePopularMovie from "../../customHooks/usePopularMovie";
 import { blankMovie, movies } from "../../utils/types";
+import { useNavigate } from "react-router-dom";
+import { BASE_CLIENT_URL } from "../../routes";
+
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 type typeOfContentType = "list" | "wishlist" | "summary";
 
@@ -108,6 +112,7 @@ function Content() {
   );
   const examinedMovie = useRef(blankMovie as movies);
   const userPositionInList = useRef({ positionX: 0, positionY: 0 });
+  const navigate = useNavigate();
   useEffect(() => {
     if (typeOfContent === "list") {
       window.scrollTo(
@@ -137,8 +142,8 @@ function Content() {
 
   return (
     <>
-      <WishlistButton onClick={changeToWishlist}>
-        <FontAwesomeIcon icon="shopping-cart" />
+      <WishlistButton onClick={() => navigate(`${BASE_CLIENT_URL}/wishlist`)}>
+        <FontAwesomeIcon icon={faShoppingCart} />
       </WishlistButton>
       <Main typeOfContent={typeOfContent}>
         {popularMovieList.map(movieMaker)}
