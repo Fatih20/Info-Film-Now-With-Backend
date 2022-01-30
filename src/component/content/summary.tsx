@@ -3,6 +3,10 @@ import styled, { css } from "styled-components";
 
 import { API_KEY, IMAGE_URL } from "../../config";
 import { movies } from "../../utils/types";
+import { BackButton, BackButtonArrow } from "../../GlobalComponent";
+
+import { useNavigate } from "react-router";
+import { useSelectedMovieContext } from "../context/SelectedMovieContext";
 
 const Main = styled.div`
   display: flex;
@@ -65,11 +69,10 @@ const MoviePoster = styled.img`
   }
 `;
 
-function Summary({
-  movie: { poster_path, title, release_date, overview },
-}: {
-  movie: movies;
-}) {
+function Summary() {
+  const { currentlySelectedMovie } = useSelectedMovieContext();
+  const navigate = useNavigate();
+  const { title, release_date, overview, poster_path } = currentlySelectedMovie;
   return (
     <Main>
       <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
@@ -78,6 +81,9 @@ function Summary({
         <MovieDate>({release_date.slice(0, 4)})</MovieDate>
         <MovieOverview>{overview}</MovieOverview>
       </DescriptionContainer>
+      <BackButton onClick={() => navigate("/")}>
+        Return to The Movie List
+      </BackButton>
     </Main>
   );
 }

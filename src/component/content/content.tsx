@@ -13,7 +13,7 @@ import { useAddToWishlist } from "../context/WishlistContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import usePopularMovie from "../../customHooks/usePopularMovie";
-import { movies } from "../../utils/types";
+import { blankMovie, movies } from "../../utils/types";
 
 type typeOfContentType = "list" | "wishlist" | "summary";
 
@@ -79,28 +79,6 @@ const BackButton = styled(VanillaButton)`
   }
 `;
 
-const BackButtonArrow = styled(VanillaButton)`
-  background-color: #fafafa;
-  border-radius: 50%;
-  bottom: 20px;
-  color: #4e4e4e;
-  font-size: 32px;
-  height: 75px;
-  left: 20px;
-  position: fixed;
-  width: 75px;
-  z-index: 10;
-
-  &:hover {
-    background-color: #4e4e4e;
-    color: #fafafa;
-  }
-
-  & > * {
-    vertical-align: middle;
-  }
-`;
-
 const WishlistButton = styled(VanillaButton)`
   background-color: #fafafa;
   border-radius: 50%;
@@ -128,25 +106,8 @@ function Content() {
   const [typeOfContent, setTypeOfContent] = useState(
     "list" as typeOfContentType
   );
-  const examinedMovie = useRef({
-    poster_path: "",
-    title: "",
-    overview: "",
-    release_date: "",
-  } as movies);
+  const examinedMovie = useRef(blankMovie as movies);
   const userPositionInList = useRef({ positionX: 0, positionY: 0 });
-
-  const addToWishlist = useAddToWishlist();
-
-  async function getMovieList() {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
-    );
-    const data = await response.json();
-    const movieData = data.results;
-    return movieData;
-  }
-
   useEffect(() => {
     if (typeOfContent === "list") {
       window.scrollTo(
@@ -157,15 +118,6 @@ function Content() {
       window.scrollTo(0, 0);
     }
   }, [typeOfContent]);
-
-  function changeToSummary(movie: movies) {
-    userPositionInList.current = {
-      positionX: window.scrollX,
-      positionY: window.scrollY,
-    };
-    examinedMovie.current = movie;
-    setTypeOfContent("summary");
-  }
 
   function changeToList() {
     setTypeOfContent("list");
@@ -180,50 +132,19 @@ function Content() {
   }
 
   function movieMaker(movie: movies) {
-    return (
-      <Movie
-        key={movie.poster_path}
-        movie={movie}
-        changeToSummary={() => changeToSummary(movie)}
-        addToWishlist={() => addToWishlist(movie)}
-      />
-    );
+    return <Movie key={movie.poster_path} movie={movie} />;
   }
 
-  if (typeOfContent === "list") {
-    return (
-      <>
-        <WishlistButton onClick={changeToWishlist}>
-          <FontAwesomeIcon icon="shopping-cart" />
-        </WishlistButton>
-        <Main typeOfContent={typeOfContent}>
-          {popularMovieList.map(movieMaker)}
-        </Main>
-      </>
-    );
-  } else if (typeOfContent === "summary") {
-    return (
+  return (
+    <>
+      <WishlistButton onClick={changeToWishlist}>
+        <FontAwesomeIcon icon="shopping-cart" />
+      </WishlistButton>
       <Main typeOfContent={typeOfContent}>
-        <ExplanationContainer>
-          <Summary movie={examinedMovie.current} />
-          <BackButton onClick={changeToList}>
-            Return to The Movie List
-          </BackButton>
-        </ExplanationContainer>
+        {popularMovieList.map(movieMaker)}
       </Main>
-    );
-  } else if (typeOfContent === "wishlist") {
-    return (
-      <>
-        <Wishlist />
-        <BackButtonArrow onClick={changeToList}>
-          <FontAwesomeIcon icon="arrow-left" />
-        </BackButtonArrow>
-      </>
-    );
-  } else {
-    return <></>;
-  }
+    </>
+  );
 }
 
 export default Content;

@@ -1,17 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 import { movies } from "../../utils/types";
 
-function initialBlank(movie: movies) {
-  console.log("");
-}
-
-type functionVoid = (movie: movies) => void;
+import { initialBlank, takeMovieReturnVoid } from "../../utils/types";
 
 const WishlistContext = React.createContext([] as movies[]);
 const RemoveFromWishlistContext = React.createContext(
-  initialBlank as functionVoid
+  initialBlank as takeMovieReturnVoid
 );
-const AddToWishlistContext = React.createContext(initialBlank as functionVoid);
+const AddToWishlistContext = React.createContext(
+  initialBlank as takeMovieReturnVoid
+);
 
 export function useWishlist() {
   return useContext(WishlistContext);
