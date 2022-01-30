@@ -72,10 +72,10 @@ function Content() {
   const { popularMovieList } = usePopularMovie();
   const navigate = useNavigate();
   const { saveUserPosition, restoreUserPosition } = useUserPositionInList();
-  const a = "Bruh";
   useEffect(() => {
     restoreUserPosition();
-  }, [a]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function goToWishlist() {
     saveUserPosition();
