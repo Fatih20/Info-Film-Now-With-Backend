@@ -71,7 +71,6 @@ const MoviePoster = styled.img`
 
 function Summary() {
   const { selectedMovie } = useSelectedMovieContext();
-  const { restoreUserPosition } = useUserPositionInList();
   function backToList() {
     navigate(`${BASE_CLIENT_URL}`);
   }

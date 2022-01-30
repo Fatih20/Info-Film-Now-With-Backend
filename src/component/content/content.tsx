@@ -13,28 +13,23 @@ import { useUserPositionInList } from "../context/PositionInListContext";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
-const MainIsList = css`
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: space-around;
-`;
-
-const MainIsSummary = css`
-  flex-direction: column;
-`;
-
 const Main = styled.div`
   background-color: #1a1a1a;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 30px;
-  justify-content: space-around;
-  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: min-content;
+  row-gap: 2rem;
+  justify-items: center;
+  padding: 1rem 1.5rem;
 
-  @media (max-width: 400px) {
-    padding: 20px 5px;
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 1rem;
   }
 `;
 

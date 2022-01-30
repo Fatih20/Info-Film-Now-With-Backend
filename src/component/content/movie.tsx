@@ -10,10 +10,15 @@ import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   color: #fafafa;
-  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
   padding: 20px 0px;
   position: relative;
   text-align: center;
+  width: 100%;
+
+  /* border: solid 1px white; */
 `;
 
 const MovieTitle = styled.h2`
@@ -23,7 +28,9 @@ const MovieTitle = styled.h2`
   margin-bottom: 5px;
 `;
 
-const MoviePoster = styled.img``;
+const MoviePoster = styled.img`
+  width: 100%;
+`;
 
 const MovieYear = styled.p``;
 
@@ -79,6 +86,8 @@ const ButtonContainerSmallScreen = styled(ButtonContainer)`
   @media (min-width: 901px) {
     display: none;
   }
+
+  /* border: solid 1px white; */
 `;
 
 const MovieButton = styled(VanillaButton)`
@@ -111,6 +120,10 @@ const SummaryButton = styled(MovieButton)`
   }
 `;
 
+const Spacer = styled.div`
+  flex-grow: 1;
+`;
+
 function Movie({ movie }: { movie: movies }) {
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
@@ -141,6 +154,7 @@ function Movie({ movie }: { movie: movies }) {
       </ImageContainer>
       <MovieTitle>{title}</MovieTitle>
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
+      <Spacer />
       <ButtonContainerSmallScreen>
         <WishlistButton onClick={() => addToWishlist(movie)}>
           Add to Wishlist
