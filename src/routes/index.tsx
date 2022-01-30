@@ -5,7 +5,7 @@ import Content from "../component/content/content";
 import Wishlist from "../component/content/wishlist";
 import Summary from "../component/content/summary";
 
-export const BASE_CLIENT_URL = "/Info-Film-React-Edition";
+export const BASE_CLIENT_URL = "/";
 
 export default function AppRoutes() {
   return (
