@@ -10,7 +10,17 @@ import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   display: flex;
-  padding-bottom: 1.25rem;
+  padding: 1.25rem;
+  align-items: center;
+  flex-direction: column;
+
+  @media (min-width: 900px) {
+    padding: 1.5rem;
+  }
+`;
+
+const MainButtonExcluded = styled.div`
+  display: flex;
   align-items: center;
   flex-direction: column;
   @media (min-width: 900px) {
@@ -23,6 +33,7 @@ const DescriptionContainer = styled.div`
   color: #fafafa;
   display: flex;
   flex-direction: column;
+  max-width: 600px;
   padding: 0;
 
   @media (min-width: 900px) {
@@ -33,11 +44,8 @@ const DescriptionContainer = styled.div`
 const MovieTitle = styled.h2`
   font-size: 2.25rem;
   text-align: center;
-  @media (min-width: 600px) {
-    font-size: 3rem;
-  }
   @media (min-width: 900px) {
-    font-size: 4rem;
+    font-size: 3rem;
     text-align: initial;
   }
 `;
@@ -56,7 +64,7 @@ const MovieOverview = styled.p`
   font-size: 1rem;
   text-align: center;
 
-  @media (min-width: 600px) {
+  @media (min-width: 900px) {
     font-size: 1.25rem;
     text-align: initial;
   }
@@ -64,11 +72,11 @@ const MovieOverview = styled.p`
 
 const MoviePoster = styled.img`
   margin-bottom: 1.25rem;
+  /* max-width: none; */
   max-width: 300px;
   width: 100%;
   @media (min-width: 900px) {
     margin-bottom: 0;
-    max-width: none;
     width: initial;
   }
 `;
@@ -82,12 +90,14 @@ function Summary() {
   const { title, release_date, overview, poster_path } = selectedMovie;
   return (
     <Main>
-      <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-      <DescriptionContainer>
-        <MovieTitle>{title}</MovieTitle>
-        <MovieDate>({release_date.slice(0, 4)})</MovieDate>
-        <MovieOverview>{overview}</MovieOverview>
-      </DescriptionContainer>
+      <MainButtonExcluded>
+        <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
+        <DescriptionContainer>
+          <MovieTitle>{title}</MovieTitle>
+          <MovieDate>({release_date.slice(0, 4)})</MovieDate>
+          <MovieOverview>{overview}</MovieOverview>
+        </DescriptionContainer>
+      </MainButtonExcluded>
       <BackButton onClick={backToList}>Return to The Movie List</BackButton>
     </Main>
   );
