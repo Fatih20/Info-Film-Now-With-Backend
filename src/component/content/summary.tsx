@@ -7,6 +7,7 @@ import { BackButton, BackButtonArrow } from "../../GlobalComponent";
 
 import { useNavigate } from "react-router";
 import { useSelectedMovieContext } from "../context/SelectedMovieContext";
+import { BASE_CLIENT_URL } from "../../routes";
 
 const Main = styled.div`
   display: flex;
@@ -81,7 +82,7 @@ function Summary() {
         <MovieDate>({release_date.slice(0, 4)})</MovieDate>
         <MovieOverview>{overview}</MovieOverview>
       </DescriptionContainer>
-      <BackButton onClick={() => navigate("/")}>
+      <BackButton onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
         Return to The Movie List
       </BackButton>
     </Main>

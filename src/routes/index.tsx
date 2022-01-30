@@ -5,11 +5,13 @@ import Content from "../component/content/content";
 import Wishlist from "../component/content/wishlist";
 import Summary from "../component/content/summary";
 
+export const BASE_CLIENT_URL = "/Info-Film-React-Edition";
+
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/">
+        <Route path={`${BASE_CLIENT_URL}`}>
           <Route
             index
             element={

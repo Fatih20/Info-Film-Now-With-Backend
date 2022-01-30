@@ -11,8 +11,10 @@ export default function usePopularMovie (){
             error
         }
     } else {
+        // console.log(data)
+        const {results} = data;
         return {
-            popularMovieList : data as movies[],
+            popularMovieList : results as movies[],
             error
         }
     }
