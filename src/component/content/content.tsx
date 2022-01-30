@@ -8,8 +8,10 @@ import usePopularMovie from "../../customHooks/usePopularMovie";
 import { movies } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
 import { BASE_CLIENT_URL } from "../../routes";
+import { useUserPositionInList } from "../context/PositionInListContext";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
 const MainIsList = css`
   flex-direction: row;
@@ -74,6 +76,16 @@ const WishlistButton = styled(VanillaButton)`
 function Content() {
   const { popularMovieList, error } = usePopularMovie();
   const navigate = useNavigate();
+  const { saveUserPosition, restoreUserPosition } = useUserPositionInList();
+
+  useEffect(() => {
+    restoreUserPosition();
+  }, []);
+
+  function goToWishlist() {
+    saveUserPosition();
+    navigate(`${BASE_CLIENT_URL}/wishlist`);
+  }
 
   function movieMaker(movie: movies) {
     return <Movie key={movie.poster_path} movie={movie} />;
@@ -81,7 +93,7 @@ function Content() {
 
   return (
     <>
-      <WishlistButton onClick={() => navigate(`${BASE_CLIENT_URL}/wishlist`)}>
+      <WishlistButton onClick={goToWishlist}>
         <FontAwesomeIcon icon={faShoppingCart} />
       </WishlistButton>
       <Main>{popularMovieList.map(movieMaker)}</Main>

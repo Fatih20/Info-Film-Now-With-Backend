@@ -6,6 +6,7 @@ import { useSelectedMovieContext } from "../context/SelectedMovieContext";
 import { movies } from "../../utils/types";
 import { useAddToWishlist } from "../context/WishlistContext";
 import { useNavigate } from "react-router";
+import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   color: #fafafa;
@@ -115,8 +116,10 @@ function Movie({ movie }: { movie: movies }) {
   const addToWishlist = useAddToWishlist();
   const { poster_path, title, release_date } = movie;
   const navigate = useNavigate();
+  const { saveUserPosition } = useUserPositionInList();
 
   function changeToSummary(movie: movies) {
+    saveUserPosition();
     setSelectedMovie(movie);
     navigate("summary");
     window.scrollTo(0, 0);

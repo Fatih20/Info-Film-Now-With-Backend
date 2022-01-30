@@ -3,6 +3,7 @@ import { GlobalTransition } from "./GlobalComponent";
 import { WishlistProvider } from "./component/context/WishlistContext";
 import AppRoutes from "./routes";
 import SelectedMovieProvider from "./component/context/SelectedMovieContext";
+import UserPositionInListProvider from "./component/context/PositionInListContext";
 import { QueryClientProvider, QueryClient } from "react-query";
 
 function App() {
@@ -22,12 +23,14 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <WishlistProvider>
-          <SelectedMovieProvider>
-            <GlobalTransition />
-            <AppRoutes />
-          </SelectedMovieProvider>
-        </WishlistProvider>
+        <UserPositionInListProvider>
+          <WishlistProvider>
+            <SelectedMovieProvider>
+              <GlobalTransition />
+              <AppRoutes />
+            </SelectedMovieProvider>
+          </WishlistProvider>
+        </UserPositionInListProvider>
       </QueryClientProvider>
     </>
   );

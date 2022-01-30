@@ -6,6 +6,7 @@ import { BackButton } from "../../GlobalComponent";
 import { useNavigate } from "react-router";
 import { useSelectedMovieContext } from "../context/SelectedMovieContext";
 import { BASE_CLIENT_URL } from "../../routes";
+import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   display: flex;
@@ -69,9 +70,11 @@ const MoviePoster = styled.img`
 `;
 
 function Summary() {
-  //   const { currentlySelectedMovie } = useSelectedMovieContext();
   const { selectedMovie } = useSelectedMovieContext();
-
+  const { restoreUserPosition } = useUserPositionInList();
+  function backToList() {
+    navigate(`${BASE_CLIENT_URL}`);
+  }
   const navigate = useNavigate();
   const { title, release_date, overview, poster_path } = selectedMovie;
   return (
@@ -82,9 +85,7 @@ function Summary() {
         <MovieDate>({release_date.slice(0, 4)})</MovieDate>
         <MovieOverview>{overview}</MovieOverview>
       </DescriptionContainer>
-      <BackButton onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
-        Return to The Movie List
-      </BackButton>
+      <BackButton onClick={backToList}>Return to The Movie List</BackButton>
     </Main>
   );
 }
