@@ -69,9 +69,11 @@ const MoviePoster = styled.img`
 `;
 
 function Summary() {
-  const { currentlySelectedMovie } = useSelectedMovieContext();
+  //   const { currentlySelectedMovie } = useSelectedMovieContext();
+  const { selectedMovie } = useSelectedMovieContext();
+
   const navigate = useNavigate();
-  const { title, release_date, overview, poster_path } = currentlySelectedMovie;
+  const { title, release_date, overview, poster_path } = selectedMovie;
   return (
     <Main>
       <MoviePoster src={`${IMAGE_URL}${poster_path}`} />

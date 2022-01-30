@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   blankMovie,
   movies,
@@ -7,8 +7,8 @@ import {
 } from "../../utils/types";
 
 const SelectedMovieContext = React.createContext({
-  currentlySelectedMovie: blankMovie,
-  changeSelectedMovie: initialBlank,
+  selectedMovie: blankMovie,
+  setSelectedMovie: initialBlank,
 } as selectedMovieContextContent);
 
 export function useSelectedMovieContext() {
@@ -20,18 +20,23 @@ export default function SelectedMovieProvider({
 }: {
   children: JSX.Element | JSX.Element[];
 }) {
-  const selectedMovie = useRef(blankMovie as movies);
+  const [selectedMovie, setSelectedMovie] = useState(blankMovie as movies);
+  //   const selectedMovie = useRef(blankMovie as movies);
 
-  function changeSelectedMovie(movie: movies) {
-    selectedMovie.current = movie;
-  }
+  //   function changeSelectedMovie(movie: movies) {
+  //     selectedMovie.current = movie;
+  //   }
 
   return (
     <SelectedMovieContext.Provider
       value={{
-        currentlySelectedMovie: selectedMovie.current,
-        changeSelectedMovie,
+        selectedMovie,
+        setSelectedMovie,
       }}
+      //   value={{
+      //     currentlySelectedMovie: selectedMovie.current,
+      //     changeSelectedMovie,
+      //   }}
     >
       {children}
     </SelectedMovieContext.Provider>

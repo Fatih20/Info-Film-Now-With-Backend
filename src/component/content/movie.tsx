@@ -111,13 +111,13 @@ const SummaryButton = styled(MovieButton)`
 `;
 
 function Movie({ movie }: { movie: movies }) {
-  const { changeSelectedMovie } = useSelectedMovieContext();
+  const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
   const { poster_path, title, release_date } = movie;
   const navigate = useNavigate();
 
   function changeToSummary(movie: movies) {
-    changeSelectedMovie(movie);
+    setSelectedMovie(movie);
     navigate("summary");
     window.scrollTo(0, 0);
   }

@@ -20,6 +20,6 @@ export type takeMovieReturnVoid = (movie: movies) => void;
   
 
 export interface selectedMovieContextContent {
-    currentlySelectedMovie : movies,
-    changeSelectedMovie : takeMovieReturnVoid
+    selectedMovie : movies,
+    setSelectedMovie : takeMovieReturnVoid
 }
