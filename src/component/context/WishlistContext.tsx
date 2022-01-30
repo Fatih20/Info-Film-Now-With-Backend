@@ -32,7 +32,7 @@ export function WishlistProvider({
 
   useEffect(() => {
     const wishlistCandidate = JSON.parse(
-      localStorage.getItem("Wishlist") || "{}"
+      localStorage.getItem("Wishlist") || "[]"
     );
     if (wishlistCandidate !== undefined && wishlistCandidate !== null) {
       setWishlist(wishlistCandidate);
