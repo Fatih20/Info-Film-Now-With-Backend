@@ -6,7 +6,6 @@ import { BackButton } from "../../GlobalComponent";
 import { useNavigate } from "react-router";
 import { useSelectedMovieContext } from "../context/SelectedMovieContext";
 import { BASE_CLIENT_URL } from "../../routes";
-import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   display: flex;

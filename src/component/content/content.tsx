@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import Movie from "./movie";
 import { VanillaButton } from "../../GlobalComponent";
@@ -33,18 +33,18 @@ const Main = styled.div`
   }
 `;
 
-const ExplanationContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  max-width: 1280px;
-  padding: 10px 10px 50px 10px;
+// const ExplanationContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   margin: 0 auto;
+//   max-width: 1280px;
+//   padding: 10px 10px 50px 10px;
 
-  border: none;
-  @media (min-width: 900px) {
-    border-bottom: #fafafa 1px solid;
-  }
-`;
+//   border: none;
+//   @media (min-width: 900px) {
+//     border-bottom: #fafafa 1px solid;
+//   }
+// `;
 
 const WishlistButton = styled(VanillaButton)`
   background-color: #fafafa;
@@ -69,13 +69,13 @@ const WishlistButton = styled(VanillaButton)`
 `;
 
 function Content() {
-  const { popularMovieList, error } = usePopularMovie();
+  const { popularMovieList } = usePopularMovie();
   const navigate = useNavigate();
   const { saveUserPosition, restoreUserPosition } = useUserPositionInList();
-
+  const a = "Bruh";
   useEffect(() => {
     restoreUserPosition();
-  }, []);
+  }, [a]);
 
   function goToWishlist() {
     saveUserPosition();
