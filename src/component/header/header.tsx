@@ -9,7 +9,7 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 1.25rem;
 
   & > * {
     /* display: inline-block; */
@@ -18,7 +18,7 @@ const Main = styled.div`
 `;
 
 const Logo = styled.img`
-  margin-top: 10px;
+  margin-top: 0.5rem;
   max-width: 150px;
 `;
 

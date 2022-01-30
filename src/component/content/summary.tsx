@@ -10,7 +10,7 @@ import { useUserPositionInList } from "../context/PositionInListContext";
 
 const Main = styled.div`
   display: flex;
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
   align-items: center;
   flex-direction: column;
   @media (min-width: 900px) {
@@ -26,24 +26,24 @@ const DescriptionContainer = styled.div`
   padding: 0;
 
   @media (min-width: 900px) {
-    padding-left: 20px;
+    padding-left: 1.25rem;
   }
 `;
 
 const MovieTitle = styled.h2`
-  font-size: 35px;
+  font-size: 2.25rem;
   text-align: center;
-  @media (min-width: 400px) {
-    font-size: 50px;
+  @media (min-width: 600px) {
+    font-size: 3rem;
   }
   @media (min-width: 900px) {
-    font-size: 60px;
+    font-size: 4rem;
     text-align: initial;
   }
 `;
 
 const MovieDate = styled.p`
-  font-size: 18px;
+  font-size: 1.25rem;
   text-align: center;
   @media (min-width: 900px) {
     text-align: initial;
@@ -52,18 +52,18 @@ const MovieDate = styled.p`
 
 const MovieOverview = styled.p`
   line-height: 1.4;
-  margin: 15px 0px;
-  font-size: 17px;
+  margin: 1rem 0;
+  font-size: 1rem;
   text-align: center;
 
   @media (min-width: 600px) {
-    font-size: 19px;
+    font-size: 1.25rem;
     text-align: initial;
   }
 `;
 
 const MoviePoster = styled.img`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   max-width: 300px;
   width: 100%;
   @media (min-width: 900px) {

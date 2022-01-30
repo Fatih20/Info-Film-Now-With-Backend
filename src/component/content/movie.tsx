@@ -13,7 +13,7 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  padding: 20px 0px;
+  padding: 1.25rem 0;
   position: relative;
   text-align: center;
   width: 100%;
@@ -23,9 +23,9 @@ const Main = styled.div`
 
 const MovieTitle = styled.h2`
   font-weight: 700;
-  font-size: 30px;
-  margin-top: 15px;
-  margin-bottom: 5px;
+  font-size: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
 `;
 
 const MoviePoster = styled.img`
@@ -58,8 +58,8 @@ const ButtonContainer = styled.div`
   box-sizing: border-box;
   display: none;
   flex-direction: column;
-  gap: 15px;
-  padding: 10px;
+  gap: 1rem;
+  padding: 0.5rem;
   width: 100%;
 `;
 
@@ -90,8 +90,8 @@ const ButtonContainerSmallScreen = styled(ButtonContainer)`
 `;
 
 const MovieButton = styled(VanillaButton)`
-  border-radius: 5px;
-  padding: 7px;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
   width: 50%;
 
   &:hover {

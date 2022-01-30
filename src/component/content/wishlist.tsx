@@ -12,17 +12,17 @@ import { BASE_CLIENT_URL } from "../../routes";
 import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Main = styled.div`
-  padding: 20px;
+  padding: 1.25rem;
 `;
 
 const Title = styled.h2`
   color: #fafafa;
-  font-size: 35px;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
   text-align: center;
 
-  @media (min-width: 500px) {
-    font-size: 45px;
+  @media (min-width: 600px) {
+    font-size: 3rem;
   }
 `;
 
@@ -31,7 +31,7 @@ const WishlistContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 2rem;
   margin: 0 auto;
   max-width: 1080px;
 
@@ -39,7 +39,7 @@ const WishlistContainer = styled.div`
     width: 100%;
   }
   @media (min-width: 600px) {
-    padding: 20px;
+    padding: 1.25rem;
   }
 `;
 
@@ -47,11 +47,11 @@ const WishlistObject = styled.div`
   align-items: center;
   background-color: #333333;
   border: solid 2px #666666;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   box-sizing: border-box;
   display: flex;
-  gap: 20px;
-  padding: 15px;
+  gap: 1.25rem;
+  padding: 1rem;
 `;
 
 const MoviePoster = styled.img`
@@ -65,7 +65,7 @@ const MovieTitle = styled.h2`
   color: #fafafa;
   font-size: 16px;
   @media (min-width: 600px) {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 `;
 
@@ -76,8 +76,8 @@ const Spacer = styled.div`
 const DeleteButton = styled(VanillaButton)`
   background-color: rgba(0, 0, 0, 0);
   color: #fafafa;
-  font-size: 20px;
-  margin-right: 20px;
+  font-size: 1.25rem;
+  margin-right: 1.25rem;
   visibility: visible;
 
   &:hover {
@@ -88,7 +88,7 @@ const DeleteButton = styled(VanillaButton)`
     ${WishlistObject}:hover & {
       visibility: visible;
     }
-    font-size: 30px;
+    font-size: 2rem;
     visibility: hidden;
   }
 `;

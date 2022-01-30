@@ -49,13 +49,13 @@ const ExplanationContainer = styled.div`
 const WishlistButton = styled(VanillaButton)`
   background-color: #fafafa;
   border-radius: 50%;
-  bottom: 20px;
+  bottom: 1.25rem;
   color: #4e4e4e;
-  font-size: 32px;
-  height: 75px;
-  left: 20px;
+  font-size: 2rem;
+  height: 4.5rem;
+  left: 1.25rem;
   position: fixed;
-  width: 75px;
+  width: 4.5rem;
   z-index: 10;
 
   &:hover {
