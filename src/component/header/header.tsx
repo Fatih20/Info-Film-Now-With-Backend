@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 import TMDBLogo from "../../TMDBLogo.svg";
 import { VanillaButton } from "../../GlobalComponent";
@@ -43,9 +43,15 @@ const SignInButton = styled.div`
   grid-row: 1/2;
   justify-content: center;
   padding: 0;
+  /* transition: color 0.2s, background-color 0.2s; */
 
   & > * {
     background-color: none;
+    /* transition: color 0.2s, background-color 0.2s; */
+  }
+
+  &:hover {
+    color: #fafafa;
   }
 
   @media (min-width: 600px) {
@@ -82,6 +88,7 @@ const Logo = styled.img`
 const Title = styled.h1``;
 
 function Header() {
+  const isLoggedIn = false;
   return (
     <Main>
       <TitleContainer>
@@ -89,7 +96,11 @@ function Header() {
         <Logo src={TMDBLogo} />
       </TitleContainer>
       <SignInButton>
-        <FontAwesomeIcon icon={faUserCircle} />
+        <FontAwesomeIcon
+          icon={isLoggedIn ? faSignOutAlt : faSignInAlt}
+          // rotation={isLoggedIn ? 90 : 0}
+          rotation={isLoggedIn ? 180 : undefined}
+        />
       </SignInButton>
     </Main>
   );
