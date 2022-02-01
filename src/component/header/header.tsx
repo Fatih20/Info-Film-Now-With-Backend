@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 import TMDBLogo from "../../TMDBLogo.svg";
-import { VanillaButton } from "../../GlobalComponent";
+import { useNavigate } from "react-router-dom";
+import { BASE_CLIENT_URL } from "../../routes";
 
 const Main = styled.div`
   background-color: black;
@@ -64,6 +65,7 @@ const SignInButton = styled.div`
 
 const TitleContainer = styled.div`
   align-items: flex-start;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   font-size: 1.25em;
@@ -88,17 +90,26 @@ const Logo = styled.img`
 const Title = styled.h1``;
 
 function Header() {
+  const navigate = useNavigate();
   const isLoggedIn = false;
+
+  function handleLogin() {
+    navigate(`${BASE_CLIENT_URL}/login`);
+  }
+
+  function handleLogout() {
+    navigate(`/${BASE_CLIENT_URL}`);
+  }
+
   return (
     <Main>
-      <TitleContainer>
+      <TitleContainer onClick={() => navigate(`/${BASE_CLIENT_URL}`)}>
         <Title>Info Film</Title>
         <Logo src={TMDBLogo} />
       </TitleContainer>
-      <SignInButton>
+      <SignInButton onClick={isLoggedIn ? handleLogout : handleLogin}>
         <FontAwesomeIcon
           icon={isLoggedIn ? faSignOutAlt : faSignInAlt}
-          // rotation={isLoggedIn ? 90 : 0}
           rotation={isLoggedIn ? 180 : undefined}
         />
       </SignInButton>

@@ -5,13 +5,13 @@ import Content from "../component/content/content";
 import Wishlist from "../component/content/wishlist";
 import Summary from "../component/content/summary";
 
-export const BASE_CLIENT_URL = "/";
+export const BASE_CLIENT_URL = "";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={`${BASE_CLIENT_URL}`}>
+        <Route path={`/${BASE_CLIENT_URL}`}>
           <Route
             index
             element={
@@ -36,6 +36,14 @@ export default function AppRoutes() {
               <>
                 <Header />
                 <Wishlist />
+              </>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <>
+                <Header />
               </>
             }
           />
