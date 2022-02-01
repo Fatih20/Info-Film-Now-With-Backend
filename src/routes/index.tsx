@@ -52,7 +52,7 @@ export default function AppRoutes() {
             element={
               <>
                 <AllSeeingContainer>
-                  <Header />
+                  <Header inLogin={true} />
                   <Login isLogin={true} />
                 </AllSeeingContainer>
               </>
@@ -63,7 +63,7 @@ export default function AppRoutes() {
             element={
               <>
                 <AllSeeingContainer>
-                  <Header />
+                  <Header inLogin={true} />
                   <Login isLogin={false} />
                 </AllSeeingContainer>
               </>

@@ -8,6 +8,10 @@ import TMDBLogo from "../../TMDBLogo.svg";
 import { useNavigate } from "react-router-dom";
 import { BASE_CLIENT_URL } from "../../routes";
 
+interface ISignInButtonProps {
+  show: boolean;
+}
+
 const Main = styled.div`
   background-color: black;
   color: #fafafa;
@@ -33,12 +37,12 @@ const Main = styled.div`
   }
 `;
 
-const SignInButton = styled.div`
+const SignInButton = styled.div<ISignInButtonProps>`
   /* background-color: rgba(0, 0, 0, 0); */
   align-items: center;
   color: #4d4d4d;
   cursor: pointer;
-  display: flex;
+  display: ${({ show }) => (show ? "flex" : "none")};
   font-size: 2.5em;
   grid-column: 2/3;
   grid-row: 1/2;
@@ -89,7 +93,7 @@ const Logo = styled.img`
 
 const Title = styled.h1``;
 
-function Header() {
+function Header({ inLogin }: { inLogin?: boolean }) {
   const navigate = useNavigate();
   const isLoggedIn = false;
 
@@ -107,7 +111,10 @@ function Header() {
         <Title>Info Film</Title>
         <Logo src={TMDBLogo} />
       </TitleContainer>
-      <SignInButton onClick={isLoggedIn ? handleLogout : handleLogin}>
+      <SignInButton
+        show={!inLogin}
+        onClick={isLoggedIn ? handleLogout : handleLogin}
+      >
         <FontAwesomeIcon
           icon={isLoggedIn ? faSignOutAlt : faSignInAlt}
           rotation={isLoggedIn ? 180 : undefined}
