@@ -1,17 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
 
 import Header from "../component/header/header";
 import Content from "../component/content/content";
-import Wishlist from "../component/content/wishlist";
-import Summary from "../component/content/summary";
+import Wishlist from "../component/wishlist";
+import Summary from "../component/summary";
+import Login from "../component/login";
 
-export const BASE_CLIENT_URL = "/";
+export const BASE_CLIENT_URL = "";
+
+const AllSeeingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={`${BASE_CLIENT_URL}`}>
+        <Route path={`/${BASE_CLIENT_URL}`}>
           <Route
             index
             element={
@@ -36,6 +44,28 @@ export default function AppRoutes() {
               <>
                 <Header />
                 <Wishlist />
+              </>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <>
+                <AllSeeingContainer>
+                  <Header inLogin={true} />
+                  <Login isLogin={true} />
+                </AllSeeingContainer>
+              </>
+            }
+          />
+          <Route
+            path="signin"
+            element={
+              <>
+                <AllSeeingContainer>
+                  <Header inLogin={true} />
+                  <Login isLogin={false} />
+                </AllSeeingContainer>
               </>
             }
           />

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
-import { useWishlist, useRemoveFromWishlist } from "../context/WishlistContext";
+import { useWishlist, useRemoveFromWishlist } from "./context/WishlistContext";
 
-import { IMAGE_URL } from "../../config";
+import { IMAGE_URL } from "../config";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { VanillaButton, BackButtonArrow } from "../../GlobalComponent";
-import { movies } from "../../utils/types";
+import { VanillaButton, BackButtonArrow } from "../GlobalComponent";
+import { movies } from "../utils/types";
 import { useNavigate } from "react-router";
-import { BASE_CLIENT_URL } from "../../routes";
+import { BASE_CLIENT_URL } from "../routes";
 import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Main = styled.div`
