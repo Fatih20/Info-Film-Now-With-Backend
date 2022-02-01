@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 import { VanillaButton } from "../GlobalComponent";
+import { useNavigate } from "react-router";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BASE_CLIENT_URL } from "../routes";
 
 var approve = require("approvejs");
+
+interface ILoginProps {
+  isLogin: boolean;
+}
 
 interface IStyledInputProps {
   show: boolean;
@@ -114,11 +120,12 @@ const WarningWhenInvalid = styled.p<IWarningWhenInvalidProps>`
   text-align: center;
 `;
 
-export default function Login() {
+export default function Login({ isLogin }: { isLogin: boolean }) {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
+  //   const [isLogin, setIsLogin] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
   const passwordHasLostFocus = useRef(false);
@@ -148,21 +155,23 @@ export default function Login() {
     }
   }, [email, password, fieldLostFocus]);
 
-  function alternateBetweenLogin() {
-    setIsLogin((prevIsLogin) => !prevIsLogin);
-  }
-
   function endText() {
     if (isLogin) {
       return (
-        <SignUpRedirect onClick={alternateBetweenLogin}>
-          Don't have an account yet? <LinkToSignIn>Sign Up!</LinkToSignIn>
+        <SignUpRedirect>
+          Don't have an account yet?{" "}
+          <LinkToSignIn onClick={() => navigate(`../signin`)}>
+            Sign Up!
+          </LinkToSignIn>
         </SignUpRedirect>
       );
     } else {
       return (
-        <SignUpRedirect onClick={alternateBetweenLogin}>
-          Have an account already? <LinkToSignIn>Log In!</LinkToSignIn>
+        <SignUpRedirect>
+          Have an account already?{" "}
+          <LinkToSignIn onClick={() => navigate(`../login`)}>
+            Log In!
+          </LinkToSignIn>
         </SignUpRedirect>
       );
     }

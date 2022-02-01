@@ -53,7 +53,7 @@ export default function AppRoutes() {
               <>
                 <AllSeeingContainer>
                   <Header />
-                  <Login />
+                  <Login isLogin={true} />
                 </AllSeeingContainer>
               </>
             }
@@ -64,7 +64,7 @@ export default function AppRoutes() {
               <>
                 <AllSeeingContainer>
                   <Header />
-                  <Login />
+                  <Login isLogin={false} />
                 </AllSeeingContainer>
               </>
             }
