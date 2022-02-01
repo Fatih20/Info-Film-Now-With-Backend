@@ -58,6 +58,17 @@ export default function AppRoutes() {
               </>
             }
           />
+          <Route
+            path="signin"
+            element={
+              <>
+                <AllSeeingContainer>
+                  <Header />
+                  <Login />
+                </AllSeeingContainer>
+              </>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

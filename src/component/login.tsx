@@ -5,8 +5,8 @@ import { VanillaButton } from "../GlobalComponent";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-interface IFieldProps {
-  labelName: string;
+interface IStyledInputProps {
+  show: boolean;
 }
 
 const Main = styled.div`
@@ -49,10 +49,11 @@ const Title = styled.h1``;
 
 const FieldContainer = styled.div``;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<IStyledInputProps>`
   border: none;
   border-radius: 0.25rem;
   color: #00b0e6;
+  display: ${({ show }) => (show ? "initial" : "none")};
   font-size: 1em;
   max-width: 15rem;
   padding: 0.5rem;
@@ -104,7 +105,31 @@ const LinkToSignIn = styled.a`
 export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {};
+  const [email, setEmail] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+
+  function alternateBetweenLogin() {
+    setIsLogin((prevIsLogin) => !prevIsLogin);
+  }
+
+  function endText() {
+    if (isLogin) {
+      return (
+        <SignUpRedirect onClick={alternateBetweenLogin}>
+          Don't have an account yet? <LinkToSignIn>Sign Up!</LinkToSignIn>
+        </SignUpRedirect>
+      );
+    } else {
+      return (
+        <SignUpRedirect onClick={alternateBetweenLogin}>
+          Have an account already? <LinkToSignIn>Log In!</LinkToSignIn>
+        </SignUpRedirect>
+      );
+    }
+  }
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+  };
   return (
     <Main>
       <FormContainer>
@@ -119,6 +144,15 @@ export default function Login() {
             placeholder="Username"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            show={true}
+          />
+          <StyledInput
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            show={!isLogin}
           />
           <StyledInput
             type="password"
@@ -126,12 +160,11 @@ export default function Login() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            show={true}
           />
         </StyledForm>
-        <SubmitButton>Log In</SubmitButton>
-        <SignUpRedirect>
-          Don't have an account yet? <LinkToSignIn>Sign up!</LinkToSignIn>
-        </SignUpRedirect>
+        <SubmitButton>{isLogin ? "Log In" : "Sign Up"}</SubmitButton>
+        {endText()}
       </FormContainer>
     </Main>
   );
