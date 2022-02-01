@@ -1,11 +1,17 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { VanillaButton } from "../GlobalComponent";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+var approve = require("approvejs");
+
 interface IStyledInputProps {
+  show: boolean;
+}
+
+export interface IWarningWhenInvalidProps {
   show: boolean;
 }
 
@@ -102,11 +108,36 @@ const LinkToSignIn = styled.a`
   }
 `;
 
+const WarningWhenInvalid = styled.p<IWarningWhenInvalidProps>`
+  color: red;
+  display: ${({ show }) => (show ? "initial" : "none")};
+`;
+
 export default function Login() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const timesPasswordFocused = useRef(0);
+  const timesEmailFocused = useRef(0);
+
+  useEffect(() => {
+    if (timesEmailFocused.current > 1) {
+      setEmailValid(
+        approve.value(email, { email: true, required: true }).approved
+      );
+    }
+
+    if (timesPasswordFocused.current > 1) {
+      if (password.length < 4) {
+        setPasswordValid(false);
+      } else {
+        setPasswordValid(true);
+      }
+    }
+  }, [email, password]);
 
   function alternateBetweenLogin() {
     setIsLogin((prevIsLogin) => !prevIsLogin);
@@ -146,20 +177,36 @@ export default function Login() {
             onChange={(e) => setName(e.target.value)}
             show={true}
           />
+          <WarningWhenInvalid show={!isLogin && !emailValid}>
+            Not a valid email
+          </WarningWhenInvalid>
           <StyledInput
             type="email"
             name="email"
             placeholder="Email"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={email}
+            onFocus={() => {
+              timesEmailFocused.current += 1;
+            }}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             show={!isLogin}
           />
+          <WarningWhenInvalid show={!passwordValid && !isLogin}>
+            Not a valid email
+          </WarningWhenInvalid>
           <StyledInput
             type="password"
             name="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onFocus={() => {
+              timesPasswordFocused.current += 1;
+            }}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             show={true}
           />
         </StyledForm>
