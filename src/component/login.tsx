@@ -111,6 +111,7 @@ const LinkToSignIn = styled.a`
 const WarningWhenInvalid = styled.p<IWarningWhenInvalidProps>`
   color: red;
   display: ${({ show }) => (show ? "initial" : "none")};
+  text-align: center;
 `;
 
 export default function Login() {
@@ -120,24 +121,32 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-  const timesPasswordFocused = useRef(0);
-  const timesEmailFocused = useRef(0);
+  const passwordHasLostFocus = useRef(false);
+  const emailHasLostFocus = useRef(false);
+  const emailFieldHaveBeenTyped = useRef(false);
+  const passwordFieldHaveBeenTyped = useRef(false);
+  const [fieldLostFocus, setFieldLostFocus] = useState(false);
+  const previousPassword = useRef("");
 
   useEffect(() => {
-    if (timesEmailFocused.current > 1) {
+    if (emailHasLostFocus.current && emailFieldHaveBeenTyped.current) {
       setEmailValid(
         approve.value(email, { email: true, required: true }).approved
       );
     }
 
-    if (timesPasswordFocused.current > 1) {
+    if (
+      previousPassword.current.length > password.length ||
+      (passwordHasLostFocus.current && passwordFieldHaveBeenTyped.current)
+    ) {
+      console.log("Bruh");
       if (password.length < 4) {
         setPasswordValid(false);
       } else {
         setPasswordValid(true);
       }
     }
-  }, [email, password]);
+  }, [email, password, fieldLostFocus]);
 
   function alternateBetweenLogin() {
     setIsLogin((prevIsLogin) => !prevIsLogin);
@@ -185,27 +194,32 @@ export default function Login() {
             name="email"
             placeholder="Email"
             value={email}
-            onFocus={() => {
-              timesEmailFocused.current += 1;
+            onBlur={() => {
+              emailHasLostFocus.current = true;
+              setFieldLostFocus((prevFieldLostFocus) => !prevFieldLostFocus);
             }}
             onChange={(e) => {
               setEmail(e.target.value);
+              emailFieldHaveBeenTyped.current = true;
             }}
             show={!isLogin}
           />
           <WarningWhenInvalid show={!passwordValid && !isLogin}>
-            Not a valid email
+            Not a valid password
           </WarningWhenInvalid>
           <StyledInput
             type="password"
             name="password"
             placeholder="Password"
             value={password}
-            onFocus={() => {
-              timesPasswordFocused.current += 1;
+            onBlur={() => {
+              passwordHasLostFocus.current = true;
+              setFieldLostFocus((prevFieldLostFocus) => !prevFieldLostFocus);
             }}
             onChange={(e) => {
+              previousPassword.current = password;
               setPassword(e.target.value);
+              passwordFieldHaveBeenTyped.current = true;
             }}
             show={true}
           />
