@@ -100,6 +100,12 @@ const DeleteButton = styled(VanillaButton)<IShowUnderCondition>`
   } */
 `;
 
+const UpperPartContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto 20px;
+  grid-template-rows: 1;
+`;
+
 const Summary = styled.div<IShowUnderCondition>`
   display: ${({ show }) => (show ? "inline-block" : "none")};
 `;
@@ -108,11 +114,22 @@ const ExpandButton = styled(VanillaButton)<IRotateUnderCondition>`
   background-color: rgba(0, 0, 0, 0);
   color: white;
   transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : null)};
+  /* transform: translateX(20px); */
+  transition: transform 0.2s;
+  transition-timing-function: ease-in-out;
 
   @media (min-width: 900px) {
-    display: none;
+    transform: scale(0) translateX(10px);
+
+    & > * {
+      transition: transform 0.2s;
+      transition-timing-function: ease-in-out;
+      transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : null)};
+    }
     ${Main}:hover & {
-      display: initial;
+      transform: scale(1) translateX(0);
+      & > * {
+      }
     }
   }
 `;
@@ -153,20 +170,22 @@ function MovieShortened({
 
   return (
     <Main>
-      <MovieTextContainer>
-        <MovieTitle>{title}</MovieTitle>
-        <MovieYear>{release_date.slice(0, 4)}</MovieYear>
-      </MovieTextContainer>
+      <UpperPartContainer>
+        <MovieTextContainer>
+          <MovieTitle>{title}</MovieTitle>
+          <MovieYear>{release_date.slice(0, 4)}</MovieYear>
+        </MovieTextContainer>
+        <ExpandButton
+          rotate={showSummary}
+          onClick={() => setShowSummary((prevShowSummary) => !prevShowSummary)}
+        >
+          <FontAwesomeIcon icon={faChevronDown} />
+        </ExpandButton>
+      </UpperPartContainer>
       <Summary show={showSummary}>{overview}</Summary>
       <DeleteButton show={showSummary} onClick={addOrRemoveFromWishlist()}>
         Remove from Wishlist
       </DeleteButton>
-      <ExpandButton
-        rotate={showSummary}
-        onClick={() => setShowSummary((prevShowSummary) => !prevShowSummary)}
-      >
-        <FontAwesomeIcon icon={faChevronDown} />
-      </ExpandButton>
 
       {/* <Spacer /> */}
       {/* <MovieActionContainer></MovieActionContainer> */}
