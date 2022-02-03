@@ -100,8 +100,11 @@ const WishlistContainerFull = css`
   }
 
   @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media (min-width: 1080px) {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 1rem;
   }
 `;
 
