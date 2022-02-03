@@ -9,11 +9,11 @@ import { VanillaButton, BackButtonArrow } from "../GlobalComponent";
 import { movies } from "../utils/types";
 import { useNavigate } from "react-router";
 import { BASE_CLIENT_URL } from "../routes";
-import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
-
-import { CloseOutline } from "react-ionicons";
-
-import xSymbol from "../icons/x.svg";
+import {
+  faArrowLeft,
+  faTrash,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Main = styled.div`
   padding: 1.25rem;
@@ -84,13 +84,7 @@ const DeleteButton = styled(VanillaButton)`
   margin-right: 1.25rem;
   visibility: visible;
 
-  & * {
-    font-size: 1rem;
-    transition: color 0.2s, background-color 0.2s;
-    --ionicon-stroke-width: 16px;
-  }
-
-  &:hover * {
+  &:hover {
     color: #ed5353;
   }
 
@@ -112,7 +106,7 @@ function WishlistItem({ movie }: { movie: movies }) {
       <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
       <Spacer />
       <DeleteButton onClick={() => removeFromWishlist(movie)}>
-        <CloseOutline />
+        <FontAwesomeIcon icon={faItems} />
       </DeleteButton>
     </WishlistObject>
   );
