@@ -1,23 +1,13 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
-
 import { useWishlist } from "./context/WishlistContext";
 
-import { IMAGE_URL } from "../config";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { VanillaButton, BackButtonArrow } from "../GlobalComponent";
-import { movies } from "../utils/types";
+import { BackButtonArrow } from "../GlobalComponent";
 import { useNavigate } from "react-router";
 import { BASE_CLIENT_URL } from "../routes";
-import {
-  faArrowLeft,
-  faTimes,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import useLocalStorage from "../customHooks/useLocalStorage";
 
-import BackspaceIcon from "mdi-react/BackspaceIcon";
 import Movie from "./movie";
 import MovieShortened from "./movieShorten";
 

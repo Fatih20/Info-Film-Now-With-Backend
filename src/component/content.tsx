@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import usePopularMovie from "../customHooks/usePopularMovie";
 import { movies } from "../utils/types";
 import { useNavigate } from "react-router-dom";
-import { BASE_CLIENT_URL } from "../routes";
 import { useUserPositionInList } from "./context/PositionInListContext";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";

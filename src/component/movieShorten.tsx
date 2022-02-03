@@ -1,10 +1,5 @@
 import styled from "styled-components";
-import { useNavigate } from "react-router";
-import { BASE_CLIENT_URL } from "../routes";
 import { locationName, movies } from "../utils/types";
-import { useBackLocation } from "./context/BackLocationContext";
-import { useUserPositionInList } from "./context/PositionInListContext";
-import { useSelectedMovieContext } from "./context/SelectedMovieContext";
 import {
   useAddToWishlist,
   useRemoveFromWishlist,
@@ -24,7 +19,6 @@ interface IRotateUnderCondition {
 
 const Main = styled.div`
   background-color: #333333;
-  /* border: solid 2px #666666; */
   border-radius: 0.5rem;
   box-sizing: border-box;
   color: white;
@@ -34,13 +28,6 @@ const Main = styled.div`
   gap: 1.25rem;
   justify-content: center;
   padding: 1rem;
-`;
-
-const MoviePoster = styled.img`
-  height: 125px;
-  @media (min-width: 600px) {
-    height: 150px;
-  }
 `;
 
 const MovieTitle = styled.h2`
@@ -59,15 +46,6 @@ const MovieTextContainer = styled.div`
   gap: 0.5rem;
 `;
 
-const MovieActionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Spacer = styled.div`
-  flex-grow: 1;
-`;
-
 const DeleteButton = styled(VanillaButton)<IShowUnderCondition>`
   align-self: center;
   background-color: #e50914;
@@ -83,21 +61,6 @@ const DeleteButton = styled(VanillaButton)<IShowUnderCondition>`
     background-color: #b70710;
     color: #fafafa;
   }
-
-  /* & > * {
-    color: black;
-    transition: color 0.2s, background-color 0.2s;
-    transition-delay: 0s;
-    transition-timing-function: linear;
-  }
-
-  @media (min-width: 900px) {
-    ${Main}:hover & {
-      visibility: visible;
-    }
-    font-size: 2rem;
-    visibility: hidden;
-  } */
 `;
 
 const UpperPartContainer = styled.div`
@@ -114,7 +77,6 @@ const ExpandButton = styled(VanillaButton)<IRotateUnderCondition>`
   background-color: rgba(0, 0, 0, 0);
   color: white;
   transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : null)};
-  /* transform: translateX(20px); */
   transition: transform 0.2s;
   transition-timing-function: ease-in-out;
 
@@ -144,21 +106,9 @@ function MovieShortened({
   backLocationName: locationName;
 }) {
   const [showSummary, setShowSummary] = useState(false);
-  const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
-  const { setBackLocation } = useBackLocation();
   const removeFromWishlist = useRemoveFromWishlist();
   const { title, release_date, overview } = movie;
-  const navigate = useNavigate();
-  const { saveUserPosition } = useUserPositionInList();
-
-  function changeToSummary(movie: movies) {
-    saveUserPosition();
-    setSelectedMovie(movie);
-    setBackLocation(backLocationName);
-    navigate(`${BASE_CLIENT_URL}/summary`);
-    window.scrollTo(0, 0);
-  }
 
   function addOrRemoveFromWishlist() {
     if (isAdd) {
@@ -186,17 +136,6 @@ function MovieShortened({
       <DeleteButton show={showSummary} onClick={addOrRemoveFromWishlist()}>
         Remove from Wishlist
       </DeleteButton>
-
-      {/* <Spacer /> */}
-      {/* <MovieActionContainer></MovieActionContainer> */}
-      {/* 
-      <Spacer />
-      <WishlistButton onClick={addOrRemoveFromWishlist()}>
-        {isAdd ? "Add to" : "Remove from"} Wishlist
-      </WishlistButton>
-      <SummaryButton onClick={() => changeToSummary(movie)}>
-        About the Movie
-      </SummaryButton> */}
     </Main>
   );
 }

@@ -3,12 +3,8 @@ import styled from "styled-components";
 import { IMAGE_URL } from "../config";
 import { BackButton } from "../GlobalComponent";
 
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useSelectedMovieContext } from "./context/SelectedMovieContext";
-import { BASE_CLIENT_URL } from "../routes";
-
-import backPathFromLocationName from "../routes/directory";
-import { locationName } from "../utils/types";
 import { useBackLocation } from "./context/BackLocationContext";
 
 const Main = styled.div`

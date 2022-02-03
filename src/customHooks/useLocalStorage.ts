@@ -12,10 +12,12 @@ export default function useLocalStorage(initialValue : any, keyName : string) {
         } else {
             setValue(JSON.parse(couldBeFirstValue));
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useNotFirstEffect(() => {
         localStorage.setItem(keyName, JSON.stringify(value))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value])
 
     return [
