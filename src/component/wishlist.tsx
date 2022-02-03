@@ -9,7 +9,11 @@ import { VanillaButton, BackButtonArrow } from "../GlobalComponent";
 import { movies } from "../utils/types";
 import { useNavigate } from "react-router";
 import { BASE_CLIENT_URL } from "../routes";
-import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+
+import { CloseOutline } from "react-ionicons";
+
+import xSymbol from "../icons/x.svg";
 
 const Main = styled.div`
   padding: 1.25rem;
@@ -80,7 +84,13 @@ const DeleteButton = styled(VanillaButton)`
   margin-right: 1.25rem;
   visibility: visible;
 
-  &:hover {
+  & * {
+    font-size: 1rem;
+    transition: color 0.2s, background-color 0.2s;
+    --ionicon-stroke-width: 16px;
+  }
+
+  &:hover * {
     color: #ed5353;
   }
 
@@ -93,30 +103,32 @@ const DeleteButton = styled(VanillaButton)`
   }
 `;
 
+function WishlistItem({ movie }: { movie: movies }) {
+  const { poster_path, title, release_date } = movie;
+  const removeFromWishlist = useRemoveFromWishlist();
+  return (
+    <WishlistObject>
+      <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
+      <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
+      <Spacer />
+      <DeleteButton onClick={() => removeFromWishlist(movie)}>
+        <CloseOutline />
+      </DeleteButton>
+    </WishlistObject>
+  );
+}
+
 function Wishlist() {
   const wishlist = useWishlist();
-  const removeFromWishlist = useRemoveFromWishlist();
   const navigate = useNavigate();
-
-  function wishlistObjectGenerator(movie: movies) {
-    const { poster_path, title, release_date } = movie;
-    return (
-      <WishlistObject>
-        <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-        <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
-        <Spacer />
-        <DeleteButton onClick={() => removeFromWishlist(movie)}>
-          <FontAwesomeIcon icon={faTrash} />
-        </DeleteButton>
-      </WishlistObject>
-    );
-  }
 
   return (
     <Main>
       <Title>Your Wishlist</Title>
       <WishlistContainer>
-        {wishlist.map(wishlistObjectGenerator)}
+        {wishlist.map((movie) => {
+          return <WishlistItem key={JSON.stringify(movie)} movie={movie} />;
+        })}
       </WishlistContainer>
       <BackButtonArrow onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
         <FontAwesomeIcon icon={faArrowLeft} />
