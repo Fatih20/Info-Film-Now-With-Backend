@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
-import { IMAGE_URL } from "../../config";
-import { VanillaButton } from "../../GlobalComponent";
-import { useSelectedMovieContext } from "../context/SelectedMovieContext";
-import { locationName, movies } from "../../utils/types";
+import { IMAGE_URL } from "../config";
+import { VanillaButton } from "../GlobalComponent";
+import { useSelectedMovieContext } from "./context/SelectedMovieContext";
+import { locationName, movies } from "../utils/types";
 import {
   useAddToWishlist,
   useRemoveFromWishlist,
-} from "../context/WishlistContext";
+} from "./context/WishlistContext";
 import { useNavigate } from "react-router";
-import { useUserPositionInList } from "../context/PositionInListContext";
-import { BASE_CLIENT_URL } from "../../routes";
-import { useBackLocation } from "../context/BackLocationContext";
+import { useUserPositionInList } from "./context/PositionInListContext";
+import { BASE_CLIENT_URL } from "../routes";
+import { useBackLocation } from "./context/BackLocationContext";
 
 const Main = styled.div`
   color: #fafafa;
