@@ -41,10 +41,10 @@ export default function AppRoutes() {
           <Route
             path="wishlist"
             element={
-              <>
+              <AllSeeingContainer>
                 <Header />
                 <Wishlist />
-              </>
+              </AllSeeingContainer>
             }
           />
           <Route
