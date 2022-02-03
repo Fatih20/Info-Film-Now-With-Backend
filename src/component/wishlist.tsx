@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 import { useWishlist } from "./context/WishlistContext";
 
@@ -16,24 +17,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import BackspaceIcon from "mdi-react/BackspaceIcon";
-import Movie from "./content/movie";
+import Movie from "./movie";
+import MovieShortened from "./movieShorten";
 
 interface IWishlistContainerProps {
   isWishlistEmpty: boolean;
+}
+
+interface IToggleListProps {
+  show: boolean;
+}
+
+interface IToggleTextProps {
+  selected: boolean;
 }
 
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
-  padding: 1.25rem;
   flex-grow: 1;
+  gap: 1rem;
+  padding: 1.25rem;
 `;
 
 const Title = styled.h2`
   color: #fafafa;
   font-size: 2rem;
-  margin-bottom: 1.25rem;
   text-align: center;
 
   @media (min-width: 600px) {
@@ -63,64 +73,6 @@ const WishlistContainer = styled.div<IWishlistContainerProps>`
   /* border: solid 1px white; */
 `;
 
-const WishlistObject = styled.div`
-  align-items: center;
-  background-color: #333333;
-  border: solid 2px #666666;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  display: flex;
-  gap: 1.25rem;
-  padding: 1rem;
-`;
-
-const MoviePoster = styled.img`
-  height: 125px;
-  @media (min-width: 600px) {
-    height: 150px;
-  }
-`;
-
-const MovieTitle = styled.h2`
-  color: #fafafa;
-  font-size: 16px;
-  @media (min-width: 600px) {
-    font-size: 1.25rem;
-  }
-`;
-
-const Spacer = styled.div`
-  flex-grow: 1;
-`;
-
-const DeleteButton = styled(VanillaButton)`
-  background-color: rgba(0, 0, 0, 0);
-  color: #fafafa;
-  font-size: 1.25rem;
-  margin-right: 1.25rem;
-  transition: color 0.2s, background-color 0.2s;
-  visibility: visible;
-
-  &:hover {
-    color: #ed5353;
-  }
-
-  & > * {
-    /* color: black; */
-    transition: color 0.2s, background-color 0.2s;
-    transition-delay: 0s;
-    transition-timing-function: linear;
-  }
-
-  @media (min-width: 900px) {
-    ${WishlistObject}:hover & {
-      visibility: visible;
-    }
-    font-size: 2rem;
-    visibility: hidden;
-  }
-`;
-
 const ShownIfEmptyText = styled.h3`
   color: #666666;
   font-size: 2rem;
@@ -131,22 +83,20 @@ const ShownIfEmptyText = styled.h3`
   }
 `;
 
-// function WishlistItem({ movie }: { movie: movies }) {
-//   const { poster_path, title, release_date } = movie;
-//   return (
-//     <WishlistObject>
-//       <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-//       <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
-//       <Spacer />
-//       <DeleteButton onClick={() => removeFromWishlist(movie)}>
-//         {/* <FontAwesomeIcon icon={faTimes} /> */}
-//         <BackspaceIcon />
-//       </DeleteButton>
-//     </WishlistObject>
-//   );
-// }
+const ToggleListContainer = styled.div<IToggleListProps>`
+  justify-content: center;
+  color: white;
+  display: ${({ show }) => (show ? "flex" : "none")};
+  gap: 1rem;
+`;
+
+const ToggleListText = styled.div<IToggleTextProps>`
+  cursor: pointer;
+  color: ${({ selected }) => (selected ? "white" : "#666666")};
+`;
 
 function Wishlist() {
+  const [viewMode, setViewMode] = useState("Full" as "Compact" | "Full");
   const wishlist = useWishlist();
   const navigate = useNavigate();
 
@@ -159,9 +109,21 @@ function Wishlist() {
       );
     } else {
       return wishlist.map((movie) => {
-        return (
-          <Movie movie={movie} isAdd={false} backLocationName="Wishlist" />
-        );
+        if (viewMode === "Full") {
+          return (
+            <Movie movie={movie} isAdd={false} backLocationName="Wishlist" />
+          );
+        } else if (viewMode === "Compact") {
+          return (
+            <MovieShortened
+              movie={movie}
+              isAdd={false}
+              backLocationName="Wishlist"
+            />
+          );
+        } else {
+          return <></>;
+        }
       });
     }
   }
@@ -169,6 +131,20 @@ function Wishlist() {
   return (
     <Main>
       <Title>Your Wishlist</Title>
+      <ToggleListContainer show={wishlist.length > 0}>
+        <ToggleListText
+          onClick={() => setViewMode("Full")}
+          selected={viewMode === "Full"}
+        >
+          Full
+        </ToggleListText>
+        <ToggleListText
+          onClick={() => setViewMode("Compact")}
+          selected={viewMode === "Compact"}
+        >
+          Compact
+        </ToggleListText>
+      </ToggleListContainer>
       <WishlistContainer isWishlistEmpty={wishlist.length === 0}>
         {wishlistContent()}
       </WishlistContainer>
