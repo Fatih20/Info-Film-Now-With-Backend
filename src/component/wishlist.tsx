@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { useWishlist, useRemoveFromWishlist } from "./context/WishlistContext";
+import { useWishlist } from "./context/WishlistContext";
 
 import { IMAGE_URL } from "../config";
 
@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import BackspaceIcon from "mdi-react/BackspaceIcon";
+import Movie from "./content/movie";
 
 interface IWishlistContainerProps {
   isWishlistEmpty: boolean;
@@ -69,7 +70,6 @@ const WishlistObject = styled.div`
   border-radius: 0.5rem;
   box-sizing: border-box;
   display: flex;
-  flex-grow: 1;
   gap: 1.25rem;
   padding: 1rem;
 `;
@@ -131,21 +131,20 @@ const ShownIfEmptyText = styled.h3`
   }
 `;
 
-function WishlistItem({ movie }: { movie: movies }) {
-  const { poster_path, title, release_date } = movie;
-  const removeFromWishlist = useRemoveFromWishlist();
-  return (
-    <WishlistObject>
-      <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-      <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
-      <Spacer />
-      <DeleteButton onClick={() => removeFromWishlist(movie)}>
-        {/* <FontAwesomeIcon icon={faTimes} /> */}
-        <BackspaceIcon />
-      </DeleteButton>
-    </WishlistObject>
-  );
-}
+// function WishlistItem({ movie }: { movie: movies }) {
+//   const { poster_path, title, release_date } = movie;
+//   return (
+//     <WishlistObject>
+//       <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
+//       <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
+//       <Spacer />
+//       <DeleteButton onClick={() => removeFromWishlist(movie)}>
+//         {/* <FontAwesomeIcon icon={faTimes} /> */}
+//         <BackspaceIcon />
+//       </DeleteButton>
+//     </WishlistObject>
+//   );
+// }
 
 function Wishlist() {
   const wishlist = useWishlist();
@@ -159,8 +158,8 @@ function Wishlist() {
         </ShownIfEmptyText>
       );
     } else {
-      wishlist.map((movie) => {
-        return <WishlistItem key={JSON.stringify(movie)} movie={movie} />;
+      return wishlist.map((movie) => {
+        return <Movie movie={movie} isAdd={false} />;
       });
     }
   }
