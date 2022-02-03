@@ -15,6 +15,7 @@ import {
   faTimes,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import useLocalStorage from "../customHooks/useLocalStorage";
 
 import BackspaceIcon from "mdi-react/BackspaceIcon";
 import Movie from "./movie";
@@ -149,7 +150,10 @@ const ToggleListText = styled.div<IToggleTextProps>`
 `;
 
 function Wishlist() {
-  const [viewMode, setViewMode] = useState("Full" as viewModeType);
+  const [viewMode, setViewMode] = useLocalStorage(
+    "Full" as viewModeType,
+    "viewMode"
+  );
   const wishlist = useWishlist();
   const navigate = useNavigate();
 
