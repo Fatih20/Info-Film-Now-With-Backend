@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import { useWishlist } from "./context/WishlistContext";
@@ -20,8 +20,11 @@ import BackspaceIcon from "mdi-react/BackspaceIcon";
 import Movie from "./movie";
 import MovieShortened from "./movieShorten";
 
+type viewModeType = "Compact" | "Full";
+
 interface IWishlistContainerProps {
   isWishlistEmpty: boolean;
+  viewMode: viewModeType;
 }
 
 interface IToggleListProps {
@@ -51,14 +54,19 @@ const Title = styled.h2`
   }
 `;
 
-const WishlistContainer = styled.div<IWishlistContainerProps>`
+const WishlistContainerEmpty = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const WishlistContainerCompact = css`
   /* border: solid 1px white; */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: ${({ isWishlistEmpty }) =>
-    isWishlistEmpty ? "center" : "flex-start"};
+  justify-content: flex-start;
   gap: 2rem;
   margin: 0 auto;
   max-width: 1080px;
@@ -71,6 +79,44 @@ const WishlistContainer = styled.div<IWishlistContainerProps>`
   }
 
   /* border: solid 1px white; */
+`;
+
+const WishlistContainerFull = css`
+  background-color: #1a1a1a;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: min-content;
+  row-gap: 2rem;
+  justify-items: center;
+  padding: 1rem 1.5rem;
+
+  /* & > * {
+    max-width: 200px;
+  } */
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 1rem;
+  }
+`;
+
+const WishlistContainer = styled.div<IWishlistContainerProps>`
+  ${({ isWishlistEmpty, viewMode }) => {
+    if (isWishlistEmpty) {
+      return WishlistContainerEmpty;
+    } else {
+      if (viewMode === "Compact") {
+        return WishlistContainerCompact;
+      } else if (viewMode === "Full") {
+        return WishlistContainerFull;
+      }
+    }
+  }}
 `;
 
 const ShownIfEmptyText = styled.h3`
@@ -96,7 +142,7 @@ const ToggleListText = styled.div<IToggleTextProps>`
 `;
 
 function Wishlist() {
-  const [viewMode, setViewMode] = useState("Full" as "Compact" | "Full");
+  const [viewMode, setViewMode] = useState("Full" as viewModeType);
   const wishlist = useWishlist();
   const navigate = useNavigate();
 
@@ -145,7 +191,10 @@ function Wishlist() {
           Compact
         </ToggleListText>
       </ToggleListContainer>
-      <WishlistContainer isWishlistEmpty={wishlist.length === 0}>
+      <WishlistContainer
+        viewMode={viewMode}
+        isWishlistEmpty={wishlist.length === 0}
+      >
         {wishlistContent()}
       </WishlistContainer>
       <BackButtonArrow onClick={() => navigate(`/${BASE_CLIENT_URL}`)}>
