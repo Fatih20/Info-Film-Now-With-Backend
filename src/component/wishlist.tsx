@@ -17,8 +17,16 @@ import {
 
 import BackspaceIcon from "mdi-react/BackspaceIcon";
 
+interface IWishlistContainerProps {
+  isWishlistEmpty: boolean;
+}
+
 const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
   padding: 1.25rem;
+  flex-grow: 1;
 `;
 
 const Title = styled.h2`
@@ -32,11 +40,14 @@ const Title = styled.h2`
   }
 `;
 
-const WishlistContainer = styled.div`
+const WishlistContainer = styled.div<IWishlistContainerProps>`
   /* border: solid 1px white; */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  justify-content: ${({ isWishlistEmpty }) =>
+    isWishlistEmpty ? "center" : "flex-start"};
   gap: 2rem;
   margin: 0 auto;
   max-width: 1080px;
@@ -47,6 +58,8 @@ const WishlistContainer = styled.div`
   @media (min-width: 600px) {
     padding: 1.25rem;
   }
+
+  /* border: solid 1px white; */
 `;
 
 const WishlistObject = styled.div`
@@ -56,6 +69,7 @@ const WishlistObject = styled.div`
   border-radius: 0.5rem;
   box-sizing: border-box;
   display: flex;
+  flex-grow: 1;
   gap: 1.25rem;
   padding: 1rem;
 `;
@@ -107,6 +121,16 @@ const DeleteButton = styled(VanillaButton)`
   }
 `;
 
+const ShownIfEmptyText = styled.h3`
+  color: #666666;
+  font-size: 2rem;
+  text-align: center;
+
+  @media (min-width: 600px) {
+    font-size: 2.5rem;
+  }
+`;
+
 function WishlistItem({ movie }: { movie: movies }) {
   const { poster_path, title, release_date } = movie;
   const removeFromWishlist = useRemoveFromWishlist();
@@ -127,13 +151,25 @@ function Wishlist() {
   const wishlist = useWishlist();
   const navigate = useNavigate();
 
+  function wishlistContent() {
+    if (wishlist.length === 0) {
+      return (
+        <ShownIfEmptyText>
+          No movie found. Go hunt for some blockbusters!
+        </ShownIfEmptyText>
+      );
+    } else {
+      wishlist.map((movie) => {
+        return <WishlistItem key={JSON.stringify(movie)} movie={movie} />;
+      });
+    }
+  }
+
   return (
     <Main>
       <Title>Your Wishlist</Title>
-      <WishlistContainer>
-        {wishlist.map((movie) => {
-          return <WishlistItem key={JSON.stringify(movie)} movie={movie} />;
-        })}
+      <WishlistContainer isWishlistEmpty={wishlist.length === 0}>
+        {wishlistContent()}
       </WishlistContainer>
       <BackButtonArrow onClick={() => navigate(`/${BASE_CLIENT_URL}`)}>
         <FontAwesomeIcon icon={faArrowLeft} />
