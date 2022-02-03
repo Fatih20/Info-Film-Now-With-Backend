@@ -69,12 +69,12 @@ const WishlistContainerCompact = css`
   justify-content: flex-start;
   gap: 2rem;
   margin: 0 auto;
-  max-width: 1080px;
 
   & > * {
     width: 100%;
   }
   @media (min-width: 600px) {
+    width: 600px;
     padding: 1.25rem;
   }
 

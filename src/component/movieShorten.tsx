@@ -10,17 +10,23 @@ import {
   useRemoveFromWishlist,
 } from "./context/WishlistContext";
 import { VanillaButton } from "../GlobalComponent";
+import { useState } from "react";
+
+interface IShowUnderCondition {
+  show: boolean;
+}
 
 const Main = styled.div`
-  align-items: center;
   background-color: #333333;
   /* border: solid 2px #666666; */
   border-radius: 0.5rem;
   box-sizing: border-box;
   color: white;
   display: flex;
+  flex-direction: column;
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.4));
   gap: 1.25rem;
+  justify-content: center;
   padding: 1rem;
 `;
 
@@ -56,20 +62,24 @@ const Spacer = styled.div`
   flex-grow: 1;
 `;
 
-const DeleteButton = styled(VanillaButton)`
-  background-color: rgba(0, 0, 0, 0);
+const DeleteButton = styled(VanillaButton)<IShowUnderCondition>`
+  align-self: center;
+  background-color: #e50914;
+  border-radius: 0.25rem;
   color: #fafafa;
-  font-size: 1.25rem;
+  display: ${({ show }) => (show ? "initial" : "none")};
   margin-right: 1.25rem;
   transition: color 0.2s, background-color 0.2s;
   visibility: visible;
+  padding: 0.25rem;
 
   &:hover {
-    color: #ed5353;
+    background-color: #a10705;
+    color: #fafafa;
   }
 
-  & > * {
-    /* color: black; */
+  /* & > * {
+    color: black;
     transition: color 0.2s, background-color 0.2s;
     transition-delay: 0s;
     transition-timing-function: linear;
@@ -81,7 +91,11 @@ const DeleteButton = styled(VanillaButton)`
     }
     font-size: 2rem;
     visibility: hidden;
-  }
+  } */
+`;
+
+const Summary = styled.div<IShowUnderCondition>`
+  display: ${({ show }) => (show ? "inline-block" : "none")};
 `;
 
 function MovieShortened({
@@ -93,11 +107,12 @@ function MovieShortened({
   isAdd: boolean;
   backLocationName: locationName;
 }) {
+  const [showSummary, setShowSummary] = useState(false);
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
   const { setBackLocation } = useBackLocation();
   const removeFromWishlist = useRemoveFromWishlist();
-  const { poster_path, title, release_date } = movie;
+  const { title, release_date, overview } = movie;
   const navigate = useNavigate();
   const { saveUserPosition } = useUserPositionInList();
 
@@ -118,13 +133,18 @@ function MovieShortened({
   }
 
   return (
-    <Main>
+    <Main onClick={() => setShowSummary((prevShowSummary) => !prevShowSummary)}>
       <MovieTextContainer>
         <MovieTitle>{title}</MovieTitle>
         <MovieYear>{release_date.slice(0, 4)}</MovieYear>
       </MovieTextContainer>
-      <Spacer />
-      <MovieActionContainer></MovieActionContainer>
+      <Summary show={showSummary}>{overview}</Summary>
+      <DeleteButton show={showSummary} onClick={addOrRemoveFromWishlist()}>
+        Remove from Wishlist
+      </DeleteButton>
+
+      {/* <Spacer /> */}
+      {/* <MovieActionContainer></MovieActionContainer> */}
       {/* 
       <Spacer />
       <WishlistButton onClick={addOrRemoveFromWishlist()}>
