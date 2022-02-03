@@ -11,9 +11,11 @@ import { useNavigate } from "react-router";
 import { BASE_CLIENT_URL } from "../routes";
 import {
   faArrowLeft,
-  faTrash,
   faTimes,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+
+import BackspaceIcon from "mdi-react/BackspaceIcon";
 
 const Main = styled.div`
   padding: 1.25rem;
@@ -82,10 +84,18 @@ const DeleteButton = styled(VanillaButton)`
   color: #fafafa;
   font-size: 1.25rem;
   margin-right: 1.25rem;
+  transition: color 0.2s, background-color 0.2s;
   visibility: visible;
 
   &:hover {
     color: #ed5353;
+  }
+
+  & > * {
+    /* color: black; */
+    transition: color 0.2s, background-color 0.2s;
+    transition-delay: 0s;
+    transition-timing-function: linear;
   }
 
   @media (min-width: 900px) {
@@ -106,7 +116,8 @@ function WishlistItem({ movie }: { movie: movies }) {
       <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
       <Spacer />
       <DeleteButton onClick={() => removeFromWishlist(movie)}>
-        <FontAwesomeIcon icon={faItems} />
+        {/* <FontAwesomeIcon icon={faTimes} /> */}
+        <BackspaceIcon />
       </DeleteButton>
     </WishlistObject>
   );
@@ -124,7 +135,7 @@ function Wishlist() {
           return <WishlistItem key={JSON.stringify(movie)} movie={movie} />;
         })}
       </WishlistContainer>
-      <BackButtonArrow onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
+      <BackButtonArrow onClick={() => navigate(`/${BASE_CLIENT_URL}`)}>
         <FontAwesomeIcon icon={faArrowLeft} />
       </BackButtonArrow>
     </Main>
