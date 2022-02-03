@@ -55,9 +55,13 @@ const Title = styled.h2`
 `;
 
 const WishlistContainerEmpty = css`
+  align-items: center;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
 `;
 
 const WishlistContainerCompact = css`

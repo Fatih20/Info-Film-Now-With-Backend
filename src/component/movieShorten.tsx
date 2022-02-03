@@ -11,9 +11,15 @@ import {
 } from "./context/WishlistContext";
 import { VanillaButton } from "../GlobalComponent";
 import { useState } from "react";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IShowUnderCondition {
   show: boolean;
+}
+
+interface IRotateUnderCondition {
+  rotate: boolean;
 }
 
 const Main = styled.div`
@@ -98,6 +104,19 @@ const Summary = styled.div<IShowUnderCondition>`
   display: ${({ show }) => (show ? "inline-block" : "none")};
 `;
 
+const ExpandButton = styled(VanillaButton)<IRotateUnderCondition>`
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  transform: ${({ rotate }) => (rotate ? "rotate(180deg)" : null)};
+
+  @media (min-width: 900px) {
+    display: none;
+    ${Main}:hover & {
+      display: initial;
+    }
+  }
+`;
+
 function MovieShortened({
   movie,
   isAdd,
@@ -133,7 +152,7 @@ function MovieShortened({
   }
 
   return (
-    <Main onClick={() => setShowSummary((prevShowSummary) => !prevShowSummary)}>
+    <Main>
       <MovieTextContainer>
         <MovieTitle>{title}</MovieTitle>
         <MovieYear>{release_date.slice(0, 4)}</MovieYear>
@@ -142,6 +161,12 @@ function MovieShortened({
       <DeleteButton show={showSummary} onClick={addOrRemoveFromWishlist()}>
         Remove from Wishlist
       </DeleteButton>
+      <ExpandButton
+        rotate={showSummary}
+        onClick={() => setShowSummary((prevShowSummary) => !prevShowSummary)}
+      >
+        <FontAwesomeIcon icon={faChevronDown} />
+      </ExpandButton>
 
       {/* <Spacer /> */}
       {/* <MovieActionContainer></MovieActionContainer> */}
