@@ -1,24 +1,43 @@
-import styled from "styled-components";
-
-import { useWishlist, useRemoveFromWishlist } from "./context/WishlistContext";
-
-import { IMAGE_URL } from "../config";
+import styled, { css } from "styled-components";
+import { useWishlist } from "./context/WishlistContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { VanillaButton, BackButtonArrow } from "../GlobalComponent";
-import { movies } from "../utils/types";
+import { BackButtonArrow } from "../GlobalComponent";
 import { useNavigate } from "react-router";
 import { BASE_CLIENT_URL } from "../routes";
-import { faArrowLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import useLocalStorage from "../customHooks/useLocalStorage";
+
+import Movie from "./movie";
+import MovieShortened from "./movieShorten";
+
+type viewModeType = "Compact" | "Full";
+
+interface IWishlistContainerProps {
+  isWishlistEmpty: boolean;
+  viewMode: viewModeType;
+}
+
+interface IToggleListProps {
+  show: boolean;
+}
+
+interface IToggleTextProps {
+  selected: boolean;
+}
 
 const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  flex-grow: 1;
+  gap: 1rem;
   padding: 1.25rem;
 `;
 
 const Title = styled.h2`
   color: #fafafa;
   font-size: 2rem;
-  margin-bottom: 1.25rem;
   text-align: center;
 
   @media (min-width: 600px) {
@@ -26,99 +45,160 @@ const Title = styled.h2`
   }
 `;
 
-const WishlistContainer = styled.div`
+const WishlistContainerEmpty = css`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+`;
+
+const WishlistContainerCompact = css`
   /* border: solid 1px white; */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
   gap: 2rem;
   margin: 0 auto;
-  max-width: 1080px;
 
   & > * {
     width: 100%;
   }
   @media (min-width: 600px) {
+    width: 600px;
     padding: 1.25rem;
   }
+
+  /* border: solid 1px white; */
 `;
 
-const WishlistObject = styled.div`
-  align-items: center;
-  background-color: #333333;
-  border: solid 2px #666666;
-  border-radius: 0.5rem;
-  box-sizing: border-box;
-  display: flex;
-  gap: 1.25rem;
-  padding: 1rem;
-`;
+const WishlistContainerFull = css`
+  background-color: #1a1a1a;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: min-content;
+  row-gap: 2rem;
+  justify-items: center;
+  padding: 1rem 1.5rem;
 
-const MoviePoster = styled.img`
-  height: 125px;
+  /* & > * {
+    max-width: 200px;
+  } */
+
   @media (min-width: 600px) {
-    height: 150px;
-  }
-`;
-
-const MovieTitle = styled.h2`
-  color: #fafafa;
-  font-size: 16px;
-  @media (min-width: 600px) {
-    font-size: 1.25rem;
-  }
-`;
-
-const Spacer = styled.div`
-  flex-grow: 1;
-`;
-
-const DeleteButton = styled(VanillaButton)`
-  background-color: rgba(0, 0, 0, 0);
-  color: #fafafa;
-  font-size: 1.25rem;
-  margin-right: 1.25rem;
-  visibility: visible;
-
-  &:hover {
-    color: #ed5353;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
   }
 
   @media (min-width: 900px) {
-    ${WishlistObject}:hover & {
-      visibility: visible;
-    }
-    font-size: 2rem;
-    visibility: hidden;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  @media (min-width: 1080px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 `;
 
+const WishlistContainer = styled.div<IWishlistContainerProps>`
+  ${({ isWishlistEmpty, viewMode }) => {
+    if (isWishlistEmpty) {
+      return WishlistContainerEmpty;
+    } else {
+      if (viewMode === "Compact") {
+        return WishlistContainerCompact;
+      } else if (viewMode === "Full") {
+        return WishlistContainerFull;
+      }
+    }
+  }}
+`;
+
+const ShownIfEmptyText = styled.h3`
+  color: #666666;
+  font-size: 2rem;
+  text-align: center;
+
+  @media (min-width: 600px) {
+    font-size: 2.5rem;
+  }
+`;
+
+const ToggleListContainer = styled.div<IToggleListProps>`
+  justify-content: center;
+  color: white;
+  display: ${({ show }) => (show ? "flex" : "none")};
+  gap: 1rem;
+`;
+
+const ToggleListText = styled.div<IToggleTextProps>`
+  cursor: pointer;
+  color: ${({ selected }) => (selected ? "white" : "#666666")};
+`;
+
 function Wishlist() {
+  const [viewMode, setViewMode] = useLocalStorage(
+    "Full" as viewModeType,
+    "viewMode"
+  );
   const wishlist = useWishlist();
-  const removeFromWishlist = useRemoveFromWishlist();
   const navigate = useNavigate();
 
-  function wishlistObjectGenerator(movie: movies) {
-    const { poster_path, title, release_date } = movie;
-    return (
-      <WishlistObject>
-        <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-        <MovieTitle>{`${title} (${release_date.slice(0, 4)})`}</MovieTitle>
-        <Spacer />
-        <DeleteButton onClick={() => removeFromWishlist(movie)}>
-          <FontAwesomeIcon icon={faTrash} />
-        </DeleteButton>
-      </WishlistObject>
-    );
+  function wishlistContent() {
+    if (wishlist.length === 0) {
+      return (
+        <ShownIfEmptyText>
+          No movie found. Go hunt for some blockbusters!
+        </ShownIfEmptyText>
+      );
+    } else {
+      return wishlist.map((movie) => {
+        if (viewMode === "Full") {
+          return (
+            <Movie movie={movie} isAdd={false} backLocationName="Wishlist" />
+          );
+        } else if (viewMode === "Compact") {
+          return (
+            <MovieShortened
+              movie={movie}
+              isAdd={false}
+              backLocationName="Wishlist"
+            />
+          );
+        } else {
+          return <></>;
+        }
+      });
+    }
   }
 
   return (
     <Main>
       <Title>Your Wishlist</Title>
-      <WishlistContainer>
-        {wishlist.map(wishlistObjectGenerator)}
+      <ToggleListContainer show={wishlist.length > 0}>
+        <ToggleListText
+          onClick={() => setViewMode("Full")}
+          selected={viewMode === "Full"}
+        >
+          Full
+        </ToggleListText>
+        <ToggleListText
+          onClick={() => setViewMode("Compact")}
+          selected={viewMode === "Compact"}
+        >
+          Compact
+        </ToggleListText>
+      </ToggleListContainer>
+      <WishlistContainer
+        viewMode={viewMode}
+        isWishlistEmpty={wishlist.length === 0}
+      >
+        {wishlistContent()}
       </WishlistContainer>
-      <BackButtonArrow onClick={() => navigate(`${BASE_CLIENT_URL}`)}>
+      <BackButtonArrow onClick={() => navigate(`/${BASE_CLIENT_URL}`)}>
         <FontAwesomeIcon icon={faArrowLeft} />
       </BackButtonArrow>
     </Main>

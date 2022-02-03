@@ -40,3 +40,11 @@ export interface IUserPositionContext {
     restoreUserPosition : () => void
 
 }
+
+export type locationName = "Wishlist" | "Movie List";
+
+export interface IBackLocationContext {
+    backLocation : locationName,
+    setBackLocation : (destination : locationName) => void,
+    backPath : string,
+}

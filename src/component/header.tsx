@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-import TMDBLogo from "../../TMDBLogo.svg";
+import TMDBLogo from "../TMDBLogo.svg";
 import { useNavigate } from "react-router-dom";
-import { BASE_CLIENT_URL } from "../../routes";
+import { BASE_CLIENT_URL } from "../routes";
 
 interface ISignInButtonProps {
   show: boolean;

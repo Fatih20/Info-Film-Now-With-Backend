@@ -5,6 +5,7 @@ import AppRoutes from "./routes";
 import SelectedMovieProvider from "./component/context/SelectedMovieContext";
 import UserPositionInListProvider from "./component/context/PositionInListContext";
 import { QueryClientProvider, QueryClient } from "react-query";
+import BackLocationProvider from "./component/context/BackLocationContext";
 
 function App() {
   const queryClient = new QueryClient({
@@ -24,12 +25,14 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <UserPositionInListProvider>
-          <WishlistProvider>
-            <SelectedMovieProvider>
-              <GlobalTransition />
-              <AppRoutes />
-            </SelectedMovieProvider>
-          </WishlistProvider>
+          <BackLocationProvider>
+            <WishlistProvider>
+              <SelectedMovieProvider>
+                <GlobalTransition />
+                <AppRoutes />
+              </SelectedMovieProvider>
+            </WishlistProvider>
+          </BackLocationProvider>
         </UserPositionInListProvider>
       </QueryClientProvider>
     </>

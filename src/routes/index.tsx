@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 
-import Header from "../component/header/header";
-import Content from "../component/content/content";
+import Header from "../component/header";
+import Content from "../component/content";
 import Wishlist from "../component/wishlist";
 import Summary from "../component/summary";
 import Login from "../component/login";
@@ -41,10 +41,10 @@ export default function AppRoutes() {
           <Route
             path="wishlist"
             element={
-              <>
+              <AllSeeingContainer>
                 <Header />
                 <Wishlist />
-              </>
+              </AllSeeingContainer>
             }
           />
           <Route

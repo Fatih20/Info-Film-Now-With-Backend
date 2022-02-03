@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 import Movie from "./movie";
-import { VanillaButton } from "../../GlobalComponent";
+import { VanillaButton } from "../GlobalComponent";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import usePopularMovie from "../../customHooks/usePopularMovie";
-import { movies } from "../../utils/types";
+import usePopularMovie from "../customHooks/usePopularMovie";
+import { movies } from "../utils/types";
 import { useNavigate } from "react-router-dom";
-import { BASE_CLIENT_URL } from "../../routes";
-import { useUserPositionInList } from "../context/PositionInListContext";
+import { useUserPositionInList } from "./context/PositionInListContext";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
@@ -29,7 +28,10 @@ const Main = styled.div`
 
   @media (min-width: 900px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    column-gap: 1rem;
+  }
+
+  @media (min-width: 1080px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 `;
 
@@ -79,11 +81,19 @@ function Content() {
 
   function goToWishlist() {
     saveUserPosition();
+    window.scrollTo(0, 0);
     navigate(`wishlist`);
   }
 
   function movieMaker(movie: movies) {
-    return <Movie key={movie.poster_path} movie={movie} />;
+    return (
+      <Movie
+        key={movie.poster_path}
+        isAdd={true}
+        movie={movie}
+        backLocationName="Movie List"
+      />
+    );
   }
 
   return (

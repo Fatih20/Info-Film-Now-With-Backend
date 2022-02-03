@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
-import { IMAGE_URL } from "../../config";
-import { VanillaButton } from "../../GlobalComponent";
-import { useSelectedMovieContext } from "../context/SelectedMovieContext";
-import { movies } from "../../utils/types";
-import { useAddToWishlist } from "../context/WishlistContext";
+import { IMAGE_URL } from "../config";
+import { VanillaButton } from "../GlobalComponent";
+import { useSelectedMovieContext } from "./context/SelectedMovieContext";
+import { locationName, movies } from "../utils/types";
+import {
+  useAddToWishlist,
+  useRemoveFromWishlist,
+} from "./context/WishlistContext";
 import { useNavigate } from "react-router";
-import { useUserPositionInList } from "../context/PositionInListContext";
+import { useUserPositionInList } from "./context/PositionInListContext";
+import { BASE_CLIENT_URL } from "../routes";
+import { useBackLocation } from "./context/BackLocationContext";
 
 const Main = styled.div`
   color: #fafafa;
@@ -101,13 +106,13 @@ const MovieButton = styled(VanillaButton)`
 `;
 
 const WishlistButton = styled(MovieButton)`
-  background-color: #e50914;
+  background-color: #00b0e6;
   color: #fafafa;
 
   transition: all 0.2s;
 
   &:hover {
-    background-color: #a10705;
+    background-color: #008db8;
     color: #fafafa;
   }
 `;
@@ -123,9 +128,19 @@ const Spacer = styled.div`
   flex-grow: 1;
 `;
 
-function Movie({ movie }: { movie: movies }) {
+function Movie({
+  movie,
+  isAdd,
+  backLocationName,
+}: {
+  movie: movies;
+  isAdd: boolean;
+  backLocationName: locationName;
+}) {
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
+  const { setBackLocation } = useBackLocation();
+  const removeFromWishlist = useRemoveFromWishlist();
   const { poster_path, title, release_date } = movie;
   const navigate = useNavigate();
   const { saveUserPosition } = useUserPositionInList();
@@ -133,8 +148,17 @@ function Movie({ movie }: { movie: movies }) {
   function changeToSummary(movie: movies) {
     saveUserPosition();
     setSelectedMovie(movie);
-    navigate("summary");
+    setBackLocation(backLocationName);
+    navigate(`${BASE_CLIENT_URL}/summary`);
     window.scrollTo(0, 0);
+  }
+
+  function addOrRemoveFromWishlist() {
+    if (isAdd) {
+      return () => addToWishlist(movie);
+    } else {
+      return () => removeFromWishlist(movie);
+    }
   }
 
   return (
@@ -142,8 +166,8 @@ function Movie({ movie }: { movie: movies }) {
       <ImageContainer>
         <Overlay />
         <ButtonContainerLargeScreen>
-          <WishlistButton onClick={() => addToWishlist(movie)}>
-            Add to Wishlist
+          <WishlistButton onClick={addOrRemoveFromWishlist()}>
+            {isAdd ? "Add to" : "Remove from"} Wishlist
           </WishlistButton>
           <SummaryButton onClick={() => changeToSummary(movie)}>
             About the Movie
@@ -155,8 +179,8 @@ function Movie({ movie }: { movie: movies }) {
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
       <Spacer />
       <ButtonContainerSmallScreen>
-        <WishlistButton onClick={() => addToWishlist(movie)}>
-          Add to Wishlist
+        <WishlistButton onClick={addOrRemoveFromWishlist()}>
+          {isAdd ? "Add to" : "Remove from"} Wishlist
         </WishlistButton>
         <SummaryButton onClick={() => changeToSummary(movie)}>
           About the Movie

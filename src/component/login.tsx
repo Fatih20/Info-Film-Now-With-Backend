@@ -5,13 +5,8 @@ import { useNavigate } from "react-router";
 
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BASE_CLIENT_URL } from "../routes";
 
 var approve = require("approvejs");
-
-interface ILoginProps {
-  isLogin: boolean;
-}
 
 interface IStyledInputProps {
   show: boolean;
@@ -56,10 +51,6 @@ const StyledForm = styled.form`
   flex-direction: column;
   gap: 1rem;
 `;
-
-const Title = styled.h1``;
-
-const FieldContainer = styled.div``;
 
 const StyledInput = styled.input<IStyledInputProps>`
   border: none;
