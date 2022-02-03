@@ -80,7 +80,7 @@ const DeleteButton = styled(VanillaButton)<IShowUnderCondition>`
   padding: 0.25rem;
 
   &:hover {
-    background-color: #a10705;
+    background-color: #b70710;
     color: #fafafa;
   }
 

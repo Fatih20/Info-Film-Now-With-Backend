@@ -106,13 +106,13 @@ const MovieButton = styled(VanillaButton)`
 `;
 
 const WishlistButton = styled(MovieButton)`
-  background-color: #e50914;
+  background-color: #00b0e6;
   color: #fafafa;
 
   transition: all 0.2s;
 
   &:hover {
-    background-color: #a10705;
+    background-color: #008db8;
     color: #fafafa;
   }
 `;
