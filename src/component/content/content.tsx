@@ -83,7 +83,14 @@ function Content() {
   }
 
   function movieMaker(movie: movies) {
-    return <Movie key={movie.poster_path} isAdd={true} movie={movie} />;
+    return (
+      <Movie
+        key={movie.poster_path}
+        isAdd={true}
+        movie={movie}
+        backLocationName="Movie List"
+      />
+    );
   }
 
   return (

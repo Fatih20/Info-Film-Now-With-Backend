@@ -3,9 +3,13 @@ import styled from "styled-components";
 import { IMAGE_URL } from "../config";
 import { BackButton } from "../GlobalComponent";
 
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSelectedMovieContext } from "./context/SelectedMovieContext";
 import { BASE_CLIENT_URL } from "../routes";
+
+import backPathFromLocationName from "../routes/directory";
+import { locationName } from "../utils/types";
+import { useBackLocation } from "./context/BackLocationContext";
 
 const Main = styled.div`
   display: flex;
@@ -82,8 +86,10 @@ const MoviePoster = styled.img`
 
 function Summary() {
   const { selectedMovie } = useSelectedMovieContext();
-  function backToList() {
-    navigate(`${BASE_CLIENT_URL}`);
+  const { backLocation, backPath } = useBackLocation();
+  function handleBack() {
+    console.log(backPath);
+    navigate(backPath);
   }
   const navigate = useNavigate();
   const { title, release_date, overview, poster_path } = selectedMovie;
@@ -97,7 +103,7 @@ function Summary() {
           <MovieOverview>{overview}</MovieOverview>
         </DescriptionContainer>
       </MainButtonExcluded>
-      <BackButton onClick={backToList}>Return to The Movie List</BackButton>
+      <BackButton onClick={handleBack}>Return to The {backLocation}</BackButton>
     </Main>
   );
 }

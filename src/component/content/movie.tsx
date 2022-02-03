@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IMAGE_URL } from "../../config";
 import { VanillaButton } from "../../GlobalComponent";
 import { useSelectedMovieContext } from "../context/SelectedMovieContext";
-import { movies } from "../../utils/types";
+import { locationName, movies } from "../../utils/types";
 import {
   useAddToWishlist,
   useRemoveFromWishlist,
@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router";
 import { useUserPositionInList } from "../context/PositionInListContext";
 import { BASE_CLIENT_URL } from "../../routes";
+import { useBackLocation } from "../context/BackLocationContext";
 
 const Main = styled.div`
   color: #fafafa;
@@ -127,9 +128,18 @@ const Spacer = styled.div`
   flex-grow: 1;
 `;
 
-function Movie({ movie, isAdd }: { movie: movies; isAdd: boolean }) {
+function Movie({
+  movie,
+  isAdd,
+  backLocationName,
+}: {
+  movie: movies;
+  isAdd: boolean;
+  backLocationName: locationName;
+}) {
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
+  const { setBackLocation } = useBackLocation();
   const removeFromWishlist = useRemoveFromWishlist();
   const { poster_path, title, release_date } = movie;
   const navigate = useNavigate();
@@ -138,6 +148,7 @@ function Movie({ movie, isAdd }: { movie: movies; isAdd: boolean }) {
   function changeToSummary(movie: movies) {
     saveUserPosition();
     setSelectedMovie(movie);
+    setBackLocation(backLocationName);
     navigate(`${BASE_CLIENT_URL}/summary`);
     window.scrollTo(0, 0);
   }

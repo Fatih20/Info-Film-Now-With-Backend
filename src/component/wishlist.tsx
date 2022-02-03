@@ -159,7 +159,9 @@ function Wishlist() {
       );
     } else {
       return wishlist.map((movie) => {
-        return <Movie movie={movie} isAdd={false} />;
+        return (
+          <Movie movie={movie} isAdd={false} backLocationName="Wishlist" />
+        );
       });
     }
   }
