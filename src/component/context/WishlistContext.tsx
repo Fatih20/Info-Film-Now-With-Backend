@@ -38,9 +38,6 @@ export function WishlistProvider({
 
   function removeFromWishlist(removedMovie: movies) {
     console.log("B");
-    // setTimesWishlistChanged(
-    //   (prevTimesWishlistChanged) => prevTimesWishlistChanged + 1
-    // );
     setWishlist((prevWishlist: movies[]) => {
       return prevWishlist.filter(
         (movieInWishlist) =>
@@ -51,10 +48,6 @@ export function WishlistProvider({
 
   function addToWishlist(movie: movies) {
     console.log("A");
-    // setTimesWishlistChanged(
-    //   (prevTimesWishlistChanged) => prevTimesWishlistChanged + 1
-    // );
-    // timesWishlistChanged.current = timesWishlistChanged.current + 1;
     setWishlist((prevWishlist: movies[]) => {
       let isInWishlist = false;
       for (const movieInWishlist of prevWishlist) {
