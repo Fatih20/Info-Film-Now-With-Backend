@@ -13,6 +13,10 @@ import { useUserPositionInList } from "./context/PositionInListContext";
 import { BASE_CLIENT_URL } from "../routes";
 import { useBackLocation } from "./context/BackLocationContext";
 
+interface IWishlistButtonProps {
+  isAdd: boolean;
+}
+
 const Main = styled.div`
   color: #fafafa;
   display: flex;
@@ -105,14 +109,14 @@ const MovieButton = styled(VanillaButton)`
   }
 `;
 
-const WishlistButton = styled(MovieButton)`
-  background-color: #00b0e6;
+const WishlistButton = styled(MovieButton)<IWishlistButtonProps>`
+  background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")};
   color: #fafafa;
 
   transition: all 0.2s;
 
   &:hover {
-    background-color: #008db8;
+    background-color: ${({ isAdd }) => (isAdd ? "#008db8" : "#b70710")};
     color: #fafafa;
   }
 `;
@@ -166,7 +170,7 @@ function Movie({
       <ImageContainer>
         <Overlay />
         <ButtonContainerLargeScreen>
-          <WishlistButton onClick={addOrRemoveFromWishlist()}>
+          <WishlistButton onClick={addOrRemoveFromWishlist()} isAdd={isAdd}>
             {isAdd ? "Add to" : "Remove from"} Wishlist
           </WishlistButton>
           <SummaryButton onClick={() => changeToSummary(movie)}>
@@ -179,7 +183,7 @@ function Movie({
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
       <Spacer />
       <ButtonContainerSmallScreen>
-        <WishlistButton onClick={addOrRemoveFromWishlist()}>
+        <WishlistButton onClick={addOrRemoveFromWishlist()} isAdd={isAdd}>
           {isAdd ? "Add to" : "Remove from"} Wishlist
         </WishlistButton>
         <SummaryButton onClick={() => changeToSummary(movie)}>
