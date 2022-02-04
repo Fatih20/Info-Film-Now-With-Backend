@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import useLocalStorage from "../../customHooks/useLocalStorage";
 import { movies } from "../../utils/types";
 
 import { initialBlank, takeMovieReturnVoid } from "../../utils/types";
@@ -28,28 +29,28 @@ export function WishlistProvider({
 }: {
   children: JSX.Element | JSX.Element[];
 }) {
-  const [wishlist, setWishlist] = useState([] as movies[]);
+  const [wishlist, setWishlist] = useLocalStorage([] as movies[], "Wishlist");
 
-  useEffect(() => {
-    const wishlistCandidate = JSON.parse(
-      localStorage.getItem("Wishlist") || "[]"
-    );
-    if (wishlistCandidate !== undefined && wishlistCandidate !== null) {
-      setWishlist(wishlistCandidate);
-    }
-    return;
-  }, []);
+  // useEffect(() => {
+  //   const wishlistCandidate = JSON.parse(
+  //     localStorage.getItem("Wishlist") || "[]"
+  //   );
+  //   if (wishlistCandidate !== undefined && wishlistCandidate !== null) {
+  //     setWishlist(wishlistCandidate);
+  //   }
+  //   return;
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem("Wishlist", JSON.stringify(wishlist));
-    // console.log(wishlist);
-  }, [wishlist]);
+  // useEffect(() => {
+  //   localStorage.setItem("Wishlist", JSON.stringify(wishlist));
+  //   // console.log(wishlist);
+  // }, [wishlist]);
 
   // localStorage.removeItem("Wishlist");
 
   function removeFromWishlist(removedMovie: movies) {
     console.log("B");
-    setWishlist((prevWishlist) => {
+    setWishlist((prevWishlist: movies[]) => {
       return prevWishlist.filter(
         (movieInWishlist) =>
           JSON.stringify(movieInWishlist) !== JSON.stringify(removedMovie)
@@ -59,7 +60,7 @@ export function WishlistProvider({
 
   function addToWishlist(movie: movies) {
     console.log("A");
-    setWishlist((prevWishlist) => {
+    setWishlist((prevWishlist: movies[]) => {
       let isInWishlist = false;
       for (const movieInWishlist of prevWishlist) {
         if (JSON.stringify(movie) === JSON.stringify(movieInWishlist)) {
