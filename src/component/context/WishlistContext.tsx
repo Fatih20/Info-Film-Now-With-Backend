@@ -1,10 +1,13 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import useLocalStorage from "../../customHooks/useLocalStorage";
+import useNotFirstEffect from "../../customHooks/useNotFirstEffect";
 import { movies } from "../../utils/types";
 
 import { initialBlank, takeMovieReturnVoid } from "../../utils/types";
 
-const WishlistContext = React.createContext([] as movies[]);
+import { wishlistContextType } from "../../utils/types";
+
+const WishlistContext = React.createContext([[], 0] as wishlistContextType);
 const RemoveFromWishlistContext = React.createContext(
   initialBlank as takeMovieReturnVoid
 );
@@ -30,26 +33,14 @@ export function WishlistProvider({
   children: JSX.Element | JSX.Element[];
 }) {
   const [wishlist, setWishlist] = useLocalStorage([] as movies[], "Wishlist");
-
-  // useEffect(() => {
-  //   const wishlistCandidate = JSON.parse(
-  //     localStorage.getItem("Wishlist") || "[]"
-  //   );
-  //   if (wishlistCandidate !== undefined && wishlistCandidate !== null) {
-  //     setWishlist(wishlistCandidate);
-  //   }
-  //   return;
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("Wishlist", JSON.stringify(wishlist));
-  //   // console.log(wishlist);
-  // }, [wishlist]);
-
-  // localStorage.removeItem("Wishlist");
+  const [timesWishlistChanged, setTimesWishlistChanged] = useState(-1);
+  const previousWishlist = useRef(wishlist);
 
   function removeFromWishlist(removedMovie: movies) {
     console.log("B");
+    // setTimesWishlistChanged(
+    //   (prevTimesWishlistChanged) => prevTimesWishlistChanged + 1
+    // );
     setWishlist((prevWishlist: movies[]) => {
       return prevWishlist.filter(
         (movieInWishlist) =>
@@ -60,6 +51,10 @@ export function WishlistProvider({
 
   function addToWishlist(movie: movies) {
     console.log("A");
+    // setTimesWishlistChanged(
+    //   (prevTimesWishlistChanged) => prevTimesWishlistChanged + 1
+    // );
+    // timesWishlistChanged.current = timesWishlistChanged.current + 1;
     setWishlist((prevWishlist: movies[]) => {
       let isInWishlist = false;
       for (const movieInWishlist of prevWishlist) {
@@ -76,8 +71,16 @@ export function WishlistProvider({
     });
   }
 
+  useNotFirstEffect(() => {
+    if (JSON.stringify(wishlist) !== JSON.stringify(previousWishlist.current)) {
+      setTimesWishlistChanged(
+        (prevTimesWishlistChanged) => prevTimesWishlistChanged + 1
+      );
+    }
+  }, [wishlist]);
+
   return (
-    <WishlistContext.Provider value={wishlist}>
+    <WishlistContext.Provider value={[wishlist, timesWishlistChanged]}>
       <RemoveFromWishlistContext.Provider value={removeFromWishlist}>
         <AddToWishlistContext.Provider value={addToWishlist}>
           {children}

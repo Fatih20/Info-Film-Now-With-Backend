@@ -48,3 +48,5 @@ export interface IBackLocationContext {
     setBackLocation : (destination : locationName) => void,
     backPath : string,
 }
+
+export type wishlistContextType = [movies[], number]

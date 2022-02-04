@@ -144,7 +144,7 @@ function Wishlist() {
     "Full" as viewModeType,
     "viewMode"
   );
-  const wishlist = useWishlist();
+  const [wishlist] = useWishlist();
   const navigate = useNavigate();
 
   function wishlistContent() {

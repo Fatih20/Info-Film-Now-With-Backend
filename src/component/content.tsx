@@ -116,33 +116,24 @@ const WishlistButton = styled(VanillaButton)`
 `;
 
 function Content() {
-  const wishlistJSONED = JSON.stringify(useWishlist());
-  const previousWishlist = useRef(wishlistJSONED);
+  const [wishlist, timesWishlistChanged] = useWishlist();
   const { popularMovieList } = usePopularMovie();
-  const navigate = useNavigate();
   const { saveUserPosition, restoreUserPosition } = useUserPositionInList();
   const [justAdded, setJustAdded] = useState(false);
+  const previousWishlist = useRef(wishlist);
+  const navigate = useNavigate();
+
   useEffect(() => {
     restoreUserPosition();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    console.log("First Render");
-    console.log(wishlistJSONED);
-    console.log(previousWishlist.current);
-  }, []);
-
   useNotFirstEffect(() => {
-    if (wishlistJSONED !== previousWishlist.current) {
-      console.log("Mysterious after render");
-      console.log(wishlistJSONED);
-      console.log(previousWishlist.current);
-      previousWishlist.current = wishlistJSONED;
+    if (timesWishlistChanged > 0) {
       setJustAdded(true);
-      setTimeout(() => setJustAdded(false), 2000);
+      setTimeout(() => setJustAdded(false), 1000);
     }
-  }, [wishlistJSONED]);
+  }, [timesWishlistChanged]);
 
   function goToWishlist() {
     saveUserPosition();

@@ -3,6 +3,7 @@ import useNotFirstEffect from "./useNotFirstEffect";
 
 export default function useLocalStorage(initialValue : any, keyName : string) {
     const[value, setValue] = useState(initialValue);
+    const[firstFetchFinished, setFirstFetchFinished] = useState(false);
 
     useEffect (() => {
         // localStorage.removeItem(keyName);
@@ -11,6 +12,7 @@ export default function useLocalStorage(initialValue : any, keyName : string) {
             setValue(initialValue)
         } else {
             setValue(JSON.parse(couldBeFirstValue));
+            setFirstFetchFinished(true);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -21,7 +23,7 @@ export default function useLocalStorage(initialValue : any, keyName : string) {
     }, [value])
 
     return [
-        value, setValue
+        value, setValue, firstFetchFinished
     ]
 
 
