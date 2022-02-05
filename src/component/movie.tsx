@@ -24,10 +24,15 @@ interface IWishlistButtonProps {
   isAdd: boolean;
 }
 
+interface IActualProgressBarProps {
+  width: number;
+}
+
 const Main = styled.div`
   color: #fafafa;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   max-width: 600px;
   padding: 1.25rem 0;
   position: relative;
@@ -40,8 +45,8 @@ const Main = styled.div`
 const MovieTitle = styled.h2`
   font-weight: 700;
   font-size: 2rem;
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
+  /* margin-top: 1rem; */
+  /* margin-bottom: 0.25rem; */
 `;
 
 const MoviePoster = styled.img`
@@ -55,7 +60,7 @@ const ImageContainer = styled.div`
 `;
 
 const Overlay = styled.div`
-  display: none;
+  display: initial;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -63,13 +68,9 @@ const Overlay = styled.div`
   ${ImageContainer}:hover & {
     background-color: rgba(0, 0, 0, 0.25);
   }
-
-  @media (min-width: 900px) {
-    display: initial;
-  }
 `;
 
-const ButtonContainer = styled.div`
+const InImageContainer = styled.div`
   align-items: center;
   box-sizing: border-box;
   display: none;
@@ -79,29 +80,39 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const ButtonContainerLargeScreen = styled(ButtonContainer)`
-  display: none;
+const InImageContainerLargeScreen = styled(InImageContainer)`
   height: 100%;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 2;
 
-  & > button {
-    font-size: 2rem;
-  }
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   @media (min-width: 900px) {
     ${ImageContainer}:hover & {
-      align-items: flex-start;
+      align-items: center;
       display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
+      flex-direction: column;
+      justify-content: center;
     }
   }
 `;
 
-const ButtonContainerSmallScreen = styled(ButtonContainer)`
+const ButtonContainer = styled.div`
+  align-self: start;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  & > button {
+    font-size: 2rem;
+  }
+`;
+
+const ButtonContainerSmallScreen = styled(InImageContainer)`
   display: flex;
 
   @media (min-width: 900px) {
@@ -152,6 +163,52 @@ const Spacer = styled.div`
   flex-grow: 1;
 `;
 
+const ProgressBarMain = styled.div`
+  align-self: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 80%;
+  padding: 0 1rem;
+`;
+
+const RatingText = styled.p`
+  /* font-size: 0.5rem; */
+  font-weight: bold;
+`;
+
+const ProgressBarBase = styled.div`
+  background-color: #4d4d4d;
+  border-radius: 1rem;
+  height: 0.5rem;
+  position: relative;
+  width: 100%;
+`;
+
+const ActualProgressBar = styled.div<IActualProgressBarProps>`
+  background-image: linear-gradient(to right, #67d8a2, #00b0e6);
+  bottom: 0;
+  border-radius: 1rem;
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: ${({ width }) => `${width}%`};
+`;
+
+function ProgressBar({ rating }: { rating: number }) {
+  return (
+    <ProgressBarMain>
+      <ProgressBarBase>
+        <ActualProgressBar width={rating * 10} />
+      </ProgressBarBase>
+      <RatingText>{rating} / 10</RatingText>
+    </ProgressBarMain>
+  );
+}
+
 function Movie({
   movie,
   isAdd,
@@ -166,7 +223,7 @@ function Movie({
   const addToWishlist = useAddToWishlist();
   const { setBackLocation } = useBackLocation();
   const removeFromWishlist = useRemoveFromWishlist();
-  const { poster_path, title, release_date } = movie;
+  const { poster_path, title, release_date, vote_average } = movie;
   const navigate = useNavigate();
   const { saveUserPosition } = useUserPositionInList();
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -211,27 +268,33 @@ function Movie({
     <Main>
       <ImageContainer>
         <Overlay />
-        <ButtonContainerLargeScreen>
-          <SummaryButton onClick={() => changeToSummary(movie)}>
-            <FontAwesomeIcon icon={faInfoCircle} />
-          </SummaryButton>
+        <InImageContainerLargeScreen>
+          <ButtonContainer>
+            <SummaryButton onClick={() => changeToSummary(movie)}>
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </SummaryButton>
+            <Spacer />
+            <WishlistButton
+              onClick={addOrRemoveFromWishlist(!isInWishlist)}
+              isAdd={isAdd}
+              // show={!isInWishlist}
+            >
+              {isInWishlist ? (
+                <FontAwesomeIcon icon={["fas", "star"]} />
+              ) : (
+                <FontAwesomeIcon icon={["far", "star"]} />
+              )}
+            </WishlistButton>
+          </ButtonContainer>
           <Spacer />
-          <WishlistButton
-            onClick={addOrRemoveFromWishlist(!isInWishlist)}
-            isAdd={isAdd}
-            // show={!isInWishlist}
-          >
-            {isInWishlist ? (
-              <FontAwesomeIcon icon={["fas", "star"]} />
-            ) : (
-              <FontAwesomeIcon icon={["far", "star"]} />
-            )}
-          </WishlistButton>
-        </ButtonContainerLargeScreen>
+          {/* <ProgressBar rating={vote_average} /> */}
+        </InImageContainerLargeScreen>
         <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
       </ImageContainer>
+      <ProgressBar rating={vote_average} />
       <MovieTitle>{title}</MovieTitle>
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
+      {/* <p>{vote_average}</p> */}
       {/* <Spacer /> */}
       {/* <ButtonContainerSmallScreen>
         <WishlistButton

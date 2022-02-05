@@ -4,6 +4,7 @@ export interface movies {
     release_date : string,
     overview : string,
     id : number,
+    vote_average : number,
 }
 
 export const blankMovie = {
@@ -11,7 +12,8 @@ poster_path: "",
 title: "",
 overview: "",
 release_date: "",
-id : 0
+id : 0,
+vote_average : 5,
 }
 
 export function initialBlank(movie: movies) {
