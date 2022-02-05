@@ -15,10 +15,13 @@ import { BASE_CLIENT_URL } from "../routes";
 import { useBackLocation } from "./context/BackLocationContext";
 import useNotFirstEffect from "../customHooks/useNotFirstEffect";
 import { useEffect, useState } from "react";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IWishlistButtonProps {
   isAdd: boolean;
-  show: boolean;
 }
 
 const Main = styled.div`
@@ -58,7 +61,7 @@ const Overlay = styled.div`
   width: 100%;
   z-index: 1;
   ${ImageContainer}:hover & {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   @media (min-width: 900px) {
@@ -72,22 +75,28 @@ const ButtonContainer = styled.div`
   display: none;
   flex-direction: column;
   gap: 1rem;
-  padding: 0.5rem;
+  padding: 1rem;
   width: 100%;
 `;
 
 const ButtonContainerLargeScreen = styled(ButtonContainer)`
   display: none;
   height: 100%;
-  justify-content: center;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 2;
 
+  & > button {
+    font-size: 2rem;
+  }
+
   @media (min-width: 900px) {
     ${ImageContainer}:hover & {
+      align-items: flex-start;
       display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
     }
   }
 `;
@@ -113,24 +122,30 @@ const MovieButton = styled(VanillaButton)`
   }
 `;
 
-const WishlistButton = styled(MovieButton)<IWishlistButtonProps>`
-  background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")};
+/* display: ${({ show }) => (show ? "initial" : "none")}; */
+const WishlistButton = styled(VanillaButton)<IWishlistButtonProps>`
+  /* background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")}; */
+  background-color: rgba(0, 0, 0, 0);
   color: #fafafa;
-  display: ${({ show }) => (show ? "initial" : "none")};
+  /* font-size: 2rem; */
 
   transition: all 0.2s;
 
   &:hover {
-    background-color: ${({ isAdd }) => (isAdd ? "#008db8" : "#b70710")};
+    /* background-color: ${({ isAdd }) => (isAdd ? "#008db8" : "#b70710")}; */
     color: #fafafa;
   }
+
+  /* border: solid 1px white; */
 `;
 
-const SummaryButton = styled(MovieButton)`
+const SummaryButton = styled(VanillaButton)`
+  background-color: rgba(0, 0, 0, 0);
+  color: #fafafa;
   &:hover {
-    background-color: #4e4e4e;
-    color: #fafafa;
+    color: white;
   }
+  /* border: solid 1px white; */
 `;
 
 const Spacer = styled.div`
@@ -168,8 +183,8 @@ function Movie({
     window.scrollTo(0, 0);
   }
 
-  function addOrRemoveFromWishlist() {
-    if (isAdd) {
+  function addOrRemoveFromWishlist(whetherToAddOrRemove: boolean) {
+    if (whetherToAddOrRemove) {
       return () => addToWishlist(movie);
     } else {
       return () => removeFromWishlist(movie);
@@ -197,23 +212,28 @@ function Movie({
       <ImageContainer>
         <Overlay />
         <ButtonContainerLargeScreen>
-          <WishlistButton
-            onClick={addOrRemoveFromWishlist()}
-            isAdd={isAdd}
-            show={!isInWishlist}
-          >
-            {isAdd ? "Add to" : "Remove from"} Wishlist
-          </WishlistButton>
           <SummaryButton onClick={() => changeToSummary(movie)}>
-            About the Movie
+            <FontAwesomeIcon icon={faInfoCircle} />
           </SummaryButton>
+          <Spacer />
+          <WishlistButton
+            onClick={addOrRemoveFromWishlist(!isInWishlist)}
+            isAdd={isAdd}
+            // show={!isInWishlist}
+          >
+            {isInWishlist ? (
+              <FontAwesomeIcon icon={["fas", "star"]} />
+            ) : (
+              <FontAwesomeIcon icon={["far", "star"]} />
+            )}
+          </WishlistButton>
         </ButtonContainerLargeScreen>
         <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
       </ImageContainer>
       <MovieTitle>{title}</MovieTitle>
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
-      <Spacer />
-      <ButtonContainerSmallScreen>
+      {/* <Spacer /> */}
+      {/* <ButtonContainerSmallScreen>
         <WishlistButton
           onClick={addOrRemoveFromWishlist()}
           isAdd={isAdd}
@@ -224,7 +244,7 @@ function Movie({
         <SummaryButton onClick={() => changeToSummary(movie)}>
           About the Movie
         </SummaryButton>
-      </ButtonContainerSmallScreen>
+      </ButtonContainerSmallScreen> */}
     </Main>
   );
 }

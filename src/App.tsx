@@ -6,6 +6,11 @@ import SelectedMovieProvider from "./component/context/SelectedMovieContext";
 import UserPositionInListProvider from "./component/context/PositionInListContext";
 import { QueryClientProvider, QueryClient } from "react-query";
 import BackLocationProvider from "./component/context/BackLocationContext";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+
+library.add(fas, far);
 
 function App() {
   const queryClient = new QueryClient({
