@@ -11,6 +11,7 @@ import useLocalStorage from "../customHooks/useLocalStorage";
 import Movie from "./movie";
 import MovieShortened from "./movieShorten";
 import { useState } from "react";
+import SummaryWindow from "./summaryModal";
 
 type viewModeType = "Compact" | "Full";
 
@@ -178,6 +179,10 @@ function Wishlist() {
 
   return (
     <Main>
+      <SummaryWindow
+        show={modalOpen}
+        closerFunction={() => setModalOpen(false)}
+      />
       <Title>Your Wishlist</Title>
       <ToggleListContainer show={wishlist.length > 0}>
         <ToggleListText
