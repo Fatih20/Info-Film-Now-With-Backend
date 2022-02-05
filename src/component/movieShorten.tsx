@@ -98,11 +98,9 @@ const ExpandButton = styled(VanillaButton)<IRotateUnderCondition>`
 
 function MovieShortened({
   movie,
-  isAdd,
   backLocationName,
 }: {
   movie: movies;
-  isAdd: boolean;
   backLocationName: locationName;
 }) {
   const [showSummary, setShowSummary] = useState(false);
@@ -110,13 +108,13 @@ function MovieShortened({
   const removeFromWishlist = useRemoveFromWishlist();
   const { title, release_date, overview } = movie;
 
-  function addOrRemoveFromWishlist() {
-    if (isAdd) {
-      return () => addToWishlist(movie);
-    } else {
-      return () => removeFromWishlist(movie);
-    }
-  }
+  // function addOrRemoveFromWishlist() {
+  //   if (isAdd) {
+  //     return () => addToWishlist(movie);
+  //   } else {
+  //     return () => removeFromWishlist(movie);
+  //   }
+  // }
 
   return (
     <Main>
@@ -133,7 +131,10 @@ function MovieShortened({
         </ExpandButton>
       </UpperPartContainer>
       <Summary show={showSummary}>{overview}</Summary>
-      <DeleteButton show={showSummary} onClick={addOrRemoveFromWishlist()}>
+      <DeleteButton
+        show={showSummary}
+        onClick={() => removeFromWishlist(movie)}
+      >
         Remove from Wishlist
       </DeleteButton>
     </Main>

@@ -158,16 +158,10 @@ function Wishlist() {
       return wishlist.map((movie) => {
         if (viewMode === "Full") {
           return (
-            <Movie movie={movie} isAdd={false} backLocationName="Wishlist" />
+            <Movie movie={movie} forMain={false} backLocationName="Wishlist" />
           );
         } else if (viewMode === "Compact") {
-          return (
-            <MovieShortened
-              movie={movie}
-              isAdd={false}
-              backLocationName="Wishlist"
-            />
-          );
+          return <MovieShortened movie={movie} backLocationName="Wishlist" />;
         } else {
           return <></>;
         }

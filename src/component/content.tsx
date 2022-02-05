@@ -145,7 +145,7 @@ function Content() {
     return (
       <Movie
         key={movie.poster_path}
-        isAdd={true}
+        forMain={true}
         movie={movie}
         backLocationName="Movie List"
       />

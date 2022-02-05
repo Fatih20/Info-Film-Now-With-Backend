@@ -21,8 +21,8 @@ import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IWishlistButtonProps {
-  isAdd: boolean;
   enlarge: boolean;
+  forMain: boolean;
 }
 
 interface IActualProgressBarProps {
@@ -168,8 +168,6 @@ const WishlistEnlarge = css`
 `;
 
 const WishlistButton = styled(VanillaButton)<IWishlistButtonProps>`
-  /* background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")}; */
-
   background-color: rgba(0, 0, 0, 0);
   color: #fafafa;
   /* font-size: 2rem; */
@@ -177,13 +175,14 @@ const WishlistButton = styled(VanillaButton)<IWishlistButtonProps>`
   transition: all 0.2s;
 
   &:hover {
-    /* background-color: ${({ isAdd }) => (isAdd ? "#008db8" : "#b70710")}; */
     color: #fafafa;
   }
 
-  ${({ enlarge }) => {
-    if (enlarge) {
-      return WishlistEnlarge;
+  ${({ enlarge, forMain }) => {
+    if (forMain) {
+      if (enlarge) {
+        return WishlistEnlarge;
+      }
     }
   }}
 `;
@@ -259,11 +258,11 @@ function ProgressBar({
 
 function Movie({
   movie,
-  isAdd,
+  forMain,
   backLocationName,
 }: {
   movie: movies;
-  isAdd: boolean;
+  forMain: boolean;
   backLocationName: locationName;
 }) {
   const [wishlist, timesWishlistChanged] = useWishlist();
@@ -313,6 +312,18 @@ function Movie({
     }
   }
 
+  function iconUsed() {
+    if (forMain) {
+      if (isInWishlist) {
+        return <FontAwesomeIcon icon={["fas", "star"]} />;
+      } else {
+        return <FontAwesomeIcon icon={["far", "star"]} />;
+      }
+    } else {
+      return <FontAwesomeIcon icon={["fas", "times"]} />;
+    }
+  }
+
   return (
     <Main>
       <ImageContainer>
@@ -325,15 +336,16 @@ function Movie({
             <Spacer />
             <WishlistButton
               onClick={addOrRemoveFromWishlist(!isInWishlist)}
-              isAdd={isAdd}
               enlarge={wishlistClicked}
+              forMain={forMain}
               // show={!isInWishlist}
             >
-              {isInWishlist ? (
+              {/* {isInWishlist ? (
                 <FontAwesomeIcon icon={["fas", "star"]} />
               ) : (
                 <FontAwesomeIcon icon={["far", "star"]} />
-              )}
+              )} */}
+              {iconUsed()}
             </WishlistButton>
           </ButtonContainerSmallScreen>
           <ButtonContainerLargeScreen>
@@ -343,6 +355,7 @@ function Movie({
             <Spacer />
             <WishlistButton
               enlarge={wishlistClicked}
+              forMain={forMain}
               onClick={() => {
                 setWishlistClicked(true);
                 setTimeout(() => {
@@ -350,14 +363,14 @@ function Movie({
                 }, 500);
                 addOrRemoveFromWishlist(!isInWishlist)();
               }}
-              isAdd={isAdd}
               // show={!isInWishlist}
             >
-              {isInWishlist ? (
+              {iconUsed()}
+              {/* {isInWishlist ? (
                 <FontAwesomeIcon icon={["fas", "star"]} />
               ) : (
                 <FontAwesomeIcon icon={["far", "star"]} />
-              )}
+              )} */}
             </WishlistButton>
           </ButtonContainerLargeScreen>
           <Spacer />
