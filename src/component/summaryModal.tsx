@@ -11,11 +11,13 @@ interface IMainProps {
 const Main = styled.div<IMainProps>`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
   display: ${({ show }) => (show ? "flex" : "none")};
-  position: fixed;
   flex-direction: column;
   left: 0;
-  justify-content: center;
+  overflow: auto;
+  position: fixed;
+  padding: 1.25rem;
   right: 0;
   top: 0;
   bottom: 0;
@@ -25,12 +27,16 @@ const Main = styled.div<IMainProps>`
 const SummaryContainer = styled.div`
   align-items: center;
   background-color: #1a1a1a;
+  border-radius: 1rem;
+  box-sizing: border-box;
   display: flex;
-  width: 80%;
-  padding: 1.25rem;
   flex-direction: column;
-
+  height: fit-content;
+  padding: 1.25rem;
+  width: fit-content;
   @media (min-width: 900px) {
+    align-items: initial;
+    flex-direction: row;
     padding: 1.5rem;
   }
 `;
