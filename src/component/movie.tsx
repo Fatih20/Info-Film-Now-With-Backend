@@ -15,6 +15,7 @@ import { useBackLocation } from "./context/BackLocationContext";
 
 interface IWishlistButtonProps {
   isAdd: boolean;
+  show: boolean;
 }
 
 const Main = styled.div`
@@ -136,10 +137,12 @@ function Movie({
   movie,
   isAdd,
   backLocationName,
+  isInWishlist,
 }: {
   movie: movies;
   isAdd: boolean;
   backLocationName: locationName;
+  isInWishlist?: (arg1: movies) => boolean;
 }) {
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
@@ -170,7 +173,11 @@ function Movie({
       <ImageContainer>
         <Overlay />
         <ButtonContainerLargeScreen>
-          <WishlistButton onClick={addOrRemoveFromWishlist()} isAdd={isAdd}>
+          <WishlistButton
+            onClick={addOrRemoveFromWishlist()}
+            isAdd={isAdd}
+            show={isInWishlist === undefined ? true : isInWishlist(movie)}
+          >
             {isAdd ? "Add to" : "Remove from"} Wishlist
           </WishlistButton>
           <SummaryButton onClick={() => changeToSummary(movie)}>
@@ -183,7 +190,11 @@ function Movie({
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
       <Spacer />
       <ButtonContainerSmallScreen>
-        <WishlistButton onClick={addOrRemoveFromWishlist()} isAdd={isAdd}>
+        <WishlistButton
+          onClick={addOrRemoveFromWishlist()}
+          isAdd={isAdd}
+          show={isInWishlist === undefined ? true : isInWishlist(movie)}
+        >
           {isAdd ? "Add to" : "Remove from"} Wishlist
         </WishlistButton>
         <SummaryButton onClick={() => changeToSummary(movie)}>
