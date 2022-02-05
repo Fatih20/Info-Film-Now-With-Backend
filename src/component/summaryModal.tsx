@@ -3,6 +3,7 @@ import { useState } from "react";
 import { movies } from "../utils/types";
 import { useSelectedMovieContext } from "./context/SelectedMovieContext";
 import { IMAGE_URL } from "../config";
+import { BackButton } from "../GlobalComponent";
 
 interface IMainProps {
   show: boolean;
@@ -22,6 +23,10 @@ const Main = styled.div<IMainProps>`
   top: 0;
   bottom: 0;
   z-index: 100;
+
+  @media (min-width: 900px) {
+    justify-content: center;
+  }
 `;
 
 const SummaryContainer = styled.div`
@@ -32,12 +37,21 @@ const SummaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: fit-content;
-  padding: 1.25rem;
+  padding: 1.5rem 1.25rem 1.25rem 1.25rem;
   width: fit-content;
+  @media (min-width: 900px) {
+    padding: 1.5rem;
+  }
+`;
+
+const CloseButtonExcluded = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   @media (min-width: 900px) {
     align-items: initial;
     flex-direction: row;
-    padding: 1.5rem;
   }
 `;
 
@@ -46,6 +60,7 @@ const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 600px;
+  gap: 0.5rem;
   padding: 0;
 
   @media (min-width: 900px) {
@@ -72,7 +87,7 @@ const MovieDate = styled.p`
 
 const MovieOverview = styled.p`
   line-height: 1.4;
-  margin: 1rem 0;
+  /* margin: 1rem 0; */
   font-size: 1rem;
   text-align: center;
 
@@ -83,7 +98,7 @@ const MovieOverview = styled.p`
 `;
 
 const MoviePoster = styled.img`
-  margin-bottom: 1.25rem;
+  /* margin-bottom: 1.25rem; */
   /* max-width: none; */
   max-width: 300px;
   width: 100%;
@@ -106,12 +121,15 @@ export default function SummaryWindow({
   return (
     <Main onClick={closerFunction} show={show}>
       <SummaryContainer>
-        <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
-        <DescriptionContainer>
-          <MovieTitle>{title}</MovieTitle>
-          <MovieDate>({release_date.slice(0, 4)})</MovieDate>
-          <MovieOverview>{overview}</MovieOverview>
-        </DescriptionContainer>
+        <CloseButtonExcluded>
+          <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
+          <DescriptionContainer>
+            <MovieTitle>{title}</MovieTitle>
+            <MovieDate>({release_date.slice(0, 4)})</MovieDate>
+            <MovieOverview>{overview}</MovieOverview>
+          </DescriptionContainer>
+        </CloseButtonExcluded>
+        <BackButton onClick={closerFunction}>Close summary</BackButton>
       </SummaryContainer>
     </Main>
   );
