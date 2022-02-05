@@ -157,11 +157,11 @@ function Content() {
       <WishlistButton onClick={goToWishlist}>
         <FontAwesomeIcon icon={faShoppingCart} />
       </WishlistButton>
-      <AbsoluteContainer>
+      {/* <AbsoluteContainer>
         <SuccessContainer show={justAdded}>
           <p>Movie succesfully added to your wishlist!</p>
         </SuccessContainer>
-      </AbsoluteContainer>
+      </AbsoluteContainer> */}
       <Main>{popularMovieList.map(movieMaker)}</Main>
     </>
   );
