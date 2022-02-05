@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 
 import { IMAGE_URL } from "../config";
 import { VanillaButton } from "../GlobalComponent";
@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IWishlistButtonProps {
   isAdd: boolean;
+  enlarge: boolean;
 }
 
 interface IActualProgressBarProps {
@@ -154,9 +155,21 @@ const MovieButton = styled(VanillaButton)`
   }
 `;
 
-/* display: ${({ show }) => (show ? "initial" : "none")}; */
+const WishlistToggle = keyframes`
+    0% {transform : scale(1)}
+    50% {transform : scale(1.2)}
+    100% {transform : scale(1)}
+`;
+
+const WishlistEnlarge = css`
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-name: ${WishlistToggle};
+`;
+
 const WishlistButton = styled(VanillaButton)<IWishlistButtonProps>`
   /* background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")}; */
+
   background-color: rgba(0, 0, 0, 0);
   color: #fafafa;
   /* font-size: 2rem; */
@@ -168,7 +181,11 @@ const WishlistButton = styled(VanillaButton)<IWishlistButtonProps>`
     color: #fafafa;
   }
 
-  /* border: solid 1px white; */
+  ${({ enlarge }) => {
+    if (enlarge) {
+      return WishlistEnlarge;
+    }
+  }}
 `;
 
 const SummaryButton = styled(VanillaButton)`
@@ -258,6 +275,7 @@ function Movie({
   const navigate = useNavigate();
   const { saveUserPosition } = useUserPositionInList();
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [wishlistClicked, setWishlistClicked] = useState(false);
 
   useEffect(() => {
     setIsInWishlist(checkIfIsInWishlist());
@@ -308,6 +326,7 @@ function Movie({
             <WishlistButton
               onClick={addOrRemoveFromWishlist(!isInWishlist)}
               isAdd={isAdd}
+              enlarge={wishlistClicked}
               // show={!isInWishlist}
             >
               {isInWishlist ? (
@@ -323,7 +342,14 @@ function Movie({
             </SummaryButton>
             <Spacer />
             <WishlistButton
-              onClick={addOrRemoveFromWishlist(!isInWishlist)}
+              enlarge={wishlistClicked}
+              onClick={() => {
+                setWishlistClicked(true);
+                setTimeout(() => {
+                  setWishlistClicked(false);
+                }, 500);
+                addOrRemoveFromWishlist(!isInWishlist)();
+              }}
               isAdd={isAdd}
               // show={!isInWishlist}
             >
