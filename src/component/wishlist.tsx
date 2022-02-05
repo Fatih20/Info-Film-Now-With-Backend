@@ -10,6 +10,7 @@ import useLocalStorage from "../customHooks/useLocalStorage";
 
 import Movie from "./movie";
 import MovieShortened from "./movieShorten";
+import { useState } from "react";
 
 type viewModeType = "Compact" | "Full";
 
@@ -146,6 +147,7 @@ function Wishlist() {
   );
   const [wishlist] = useWishlist();
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
 
   function wishlistContent() {
     if (wishlist.length === 0) {
@@ -158,7 +160,12 @@ function Wishlist() {
       return wishlist.map((movie) => {
         if (viewMode === "Full") {
           return (
-            <Movie movie={movie} forMain={false} backLocationName="Wishlist" />
+            <Movie
+              movie={movie}
+              forMain={false}
+              backLocationName="Wishlist"
+              openModal={() => setModalOpen(true)}
+            />
           );
         } else if (viewMode === "Compact") {
           return <MovieShortened movie={movie} backLocationName="Wishlist" />;

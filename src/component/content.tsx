@@ -14,6 +14,7 @@ import { useUserPositionInList } from "./context/PositionInListContext";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
+import SummaryWindow from "./summaryModal";
 
 interface IShowUnderSomeCondition {
   show: boolean;
@@ -122,6 +123,7 @@ function Content() {
   const [justAdded, setJustAdded] = useState(false);
   const previousWishlist = useRef(wishlist);
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     restoreUserPosition();
@@ -148,12 +150,17 @@ function Content() {
         forMain={true}
         movie={movie}
         backLocationName="Movie List"
+        openModal={() => setModalOpen(true)}
       />
     );
   }
 
   return (
     <>
+      <SummaryWindow
+        show={modalOpen}
+        closerFunction={() => setModalOpen(false)}
+      />
       <WishlistButton onClick={goToWishlist}>
         <FontAwesomeIcon icon={faShoppingCart} />
       </WishlistButton>
