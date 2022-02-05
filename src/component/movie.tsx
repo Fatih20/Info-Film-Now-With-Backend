@@ -28,6 +28,10 @@ interface IActualProgressBarProps {
   width: number;
 }
 
+interface IProgressBarMainProps {
+  showOnLarge: boolean;
+}
+
 const Main = styled.div`
   color: #fafafa;
   display: flex;
@@ -76,45 +80,62 @@ const InImageContainer = styled.div`
   display: none;
   flex-direction: column;
   gap: 1rem;
-  padding: 1rem;
   width: 100%;
 `;
 
 const InImageContainerLargeScreen = styled(InImageContainer)`
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  justify-content: center;
+  padding-bottom: 0.75rem;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 2;
 
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
   @media (min-width: 900px) {
+    display: none;
     ${ImageContainer}:hover & {
-      align-items: center;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      /* padding: 1rem; */
     }
   }
 `;
 
 const ButtonContainer = styled.div`
   align-self: start;
-  display: flex;
+  box-sizing: border-box;
   flex-direction: row;
   width: 100%;
+`;
+
+const ButtonContainerLargeScreen = styled(ButtonContainer)`
+  display: none;
   & > button {
     font-size: 2rem;
   }
+  @media (min-width: 900px) {
+    display: flex;
+    padding: 0.75rem;
+  }
+
+  /* border: solid 1px white; */
 `;
 
-const ButtonContainerSmallScreen = styled(InImageContainer)`
+const ButtonContainerSmallScreen = styled(ButtonContainer)`
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0)
+  );
   display: flex;
-
+  padding: 1rem 0.5rem 1rem 0.5rem;
+  & > button {
+    font-size: 1.5rem;
+  }
   @media (min-width: 900px) {
     display: none;
   }
@@ -163,16 +184,20 @@ const Spacer = styled.div`
   flex-grow: 1;
 `;
 
-const ProgressBarMain = styled.div`
+const ProgressBarMain = styled.div<IProgressBarMainProps>`
   align-self: center;
   align-items: center;
   column-gap: 0.5rem;
-  display: flex;
+  display: ${({ showOnLarge }) => (showOnLarge ? "none" : "flex")};
   flex-direction: column;
   gap: 0.5rem;
   justify-content: center;
   width: 80%;
   padding: 0 1rem;
+
+  @media (min-width: 900px) {
+    display: ${({ showOnLarge }) => (!showOnLarge ? "none" : "flex")};
+  }
 `;
 
 const RatingText = styled.p`
@@ -198,9 +223,15 @@ const ActualProgressBar = styled.div<IActualProgressBarProps>`
   width: ${({ width }) => `${width}%`};
 `;
 
-function ProgressBar({ rating }: { rating: number }) {
+function ProgressBar({
+  rating,
+  showOnLarge,
+}: {
+  rating: number;
+  showOnLarge: boolean;
+}) {
   return (
-    <ProgressBarMain>
+    <ProgressBarMain showOnLarge={showOnLarge}>
       <ProgressBarBase>
         <ActualProgressBar width={rating * 10} />
       </ProgressBarBase>
@@ -269,7 +300,7 @@ function Movie({
       <ImageContainer>
         <Overlay />
         <InImageContainerLargeScreen>
-          <ButtonContainer>
+          <ButtonContainerSmallScreen>
             <SummaryButton onClick={() => changeToSummary(movie)}>
               <FontAwesomeIcon icon={faInfoCircle} />
             </SummaryButton>
@@ -285,13 +316,30 @@ function Movie({
                 <FontAwesomeIcon icon={["far", "star"]} />
               )}
             </WishlistButton>
-          </ButtonContainer>
+          </ButtonContainerSmallScreen>
+          <ButtonContainerLargeScreen>
+            <SummaryButton onClick={() => changeToSummary(movie)}>
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </SummaryButton>
+            <Spacer />
+            <WishlistButton
+              onClick={addOrRemoveFromWishlist(!isInWishlist)}
+              isAdd={isAdd}
+              // show={!isInWishlist}
+            >
+              {isInWishlist ? (
+                <FontAwesomeIcon icon={["fas", "star"]} />
+              ) : (
+                <FontAwesomeIcon icon={["far", "star"]} />
+              )}
+            </WishlistButton>
+          </ButtonContainerLargeScreen>
           <Spacer />
-          {/* <ProgressBar rating={vote_average} /> */}
+          <ProgressBar showOnLarge={true} rating={vote_average} />
         </InImageContainerLargeScreen>
         <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
       </ImageContainer>
-      <ProgressBar rating={vote_average} />
+      <ProgressBar showOnLarge={false} rating={vote_average} />
       <MovieTitle>{title}</MovieTitle>
       <MovieYear>{release_date.slice(0, 4)}</MovieYear>
       {/* <p>{vote_average}</p> */}
