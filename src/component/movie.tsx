@@ -17,7 +17,6 @@ import useNotFirstEffect from "../customHooks/useNotFirstEffect";
 import { useEffect, useState } from "react";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IWishlistButtonProps {
@@ -260,10 +259,12 @@ function Movie({
   movie,
   forMain,
   backLocationName,
+  openModal,
 }: {
   movie: movies;
   forMain: boolean;
   backLocationName: locationName;
+  openModal: () => void;
 }) {
   const [wishlist, timesWishlistChanged] = useWishlist();
   const { setSelectedMovie } = useSelectedMovieContext();
@@ -280,12 +281,17 @@ function Movie({
     setIsInWishlist(checkIfIsInWishlist());
   }, [wishlist]);
 
+  // function changeToSummary(movie: movies) {
+  //   saveUserPosition();
+  //   setSelectedMovie(movie);
+  //   setBackLocation(backLocationName);
+  //   navigate(`${BASE_CLIENT_URL}/summary`);
+  //   window.scrollTo(0, 0);
+  // }
+
   function changeToSummary(movie: movies) {
-    saveUserPosition();
     setSelectedMovie(movie);
-    setBackLocation(backLocationName);
-    navigate(`${BASE_CLIENT_URL}/summary`);
-    window.scrollTo(0, 0);
+    openModal();
   }
 
   function addOrRemoveFromWishlist(whetherToAddOrRemove: boolean) {
