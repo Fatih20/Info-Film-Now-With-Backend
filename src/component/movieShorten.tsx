@@ -116,6 +116,11 @@ function MovieShortened({
   //   }
   // }
 
+  function handleRemove() {
+    setShowSummary(false);
+    removeFromWishlist(movie);
+  }
+
   return (
     <Main>
       <UpperPartContainer>
@@ -131,10 +136,7 @@ function MovieShortened({
         </ExpandButton>
       </UpperPartContainer>
       <Summary show={showSummary}>{overview}</Summary>
-      <DeleteButton
-        show={showSummary}
-        onClick={() => removeFromWishlist(movie)}
-      >
+      <DeleteButton show={showSummary} onClick={handleRemove}>
         Remove from Wishlist
       </DeleteButton>
     </Main>
