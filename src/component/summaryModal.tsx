@@ -4,6 +4,8 @@ import { movies } from "../utils/types";
 import { useSelectedMovieContext } from "./context/SelectedMovieContext";
 import { IMAGE_URL } from "../config";
 import { BackButton } from "../GlobalComponent";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IMainProps {
   show: boolean;
@@ -77,15 +79,31 @@ const MovieTitle = styled.h2`
   }
 `;
 
-const MovieDate = styled.p`
+const SecondTextContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin: 0 auto;
   font-size: 1.25rem;
+  @media (min-width: 900px) {
+    margin: initial;
+  }
+`;
+
+const MovieDate = styled.p`
   text-align: center;
   @media (min-width: 900px) {
     text-align: initial;
   }
 `;
 
+const RatingContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 const MovieOverview = styled.p`
+  border-top: solid 2px #fafafa;
+  padding-top: 0.5rem;
   line-height: 1.4;
   /* margin: 1rem 0; */
   font-size: 1rem;
@@ -116,7 +134,7 @@ export default function SummaryWindow({
   closerFunction: () => void;
 }) {
   const {
-    selectedMovie: { title, release_date, overview, poster_path },
+    selectedMovie: { title, release_date, overview, poster_path, vote_average },
   } = useSelectedMovieContext();
   return (
     <Main onClick={closerFunction} show={show}>
@@ -125,7 +143,13 @@ export default function SummaryWindow({
           <MoviePoster src={`${IMAGE_URL}${poster_path}`} />
           <DescriptionContainer>
             <MovieTitle>{title}</MovieTitle>
-            <MovieDate>({release_date.slice(0, 4)})</MovieDate>
+            <SecondTextContainer>
+              <MovieDate>({release_date.slice(0, 4)})</MovieDate>
+              <RatingContainer>
+                {vote_average}
+                <FontAwesomeIcon icon={faStar} color="#00b0e6" />
+              </RatingContainer>
+            </SecondTextContainer>
             <MovieOverview>{overview}</MovieOverview>
           </DescriptionContainer>
         </CloseButtonExcluded>
