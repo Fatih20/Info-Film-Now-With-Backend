@@ -3,6 +3,8 @@ export interface movies {
     title : string,
     release_date : string,
     overview : string,
+    id : number,
+    vote_average : number,
 }
 
 export const blankMovie = {
@@ -10,6 +12,8 @@ poster_path: "",
 title: "",
 overview: "",
 release_date: "",
+id : 0,
+vote_average : 5,
 }
 
 export function initialBlank(movie: movies) {
@@ -48,3 +52,5 @@ export interface IBackLocationContext {
     setBackLocation : (destination : locationName) => void,
     backPath : string,
 }
+
+export type wishlistContextType = [movies[], number]

@@ -1,7 +1,10 @@
+import { useState, useRef } from "react";
+import useNotFirstEffect from "../customHooks/useNotFirstEffect";
 import styled from "styled-components";
 
 import Movie from "./movie";
 import { VanillaButton } from "../GlobalComponent";
+import { useWishlist } from "./context/WishlistContext";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import usePopularMovie from "../customHooks/usePopularMovie";
@@ -12,6 +15,10 @@ import { useUserPositionInList } from "./context/PositionInListContext";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 
+interface IShowUnderSomeCondition {
+  show: boolean;
+}
+
 const Main = styled.div`
   background-color: #1a1a1a;
   display: grid;
@@ -20,6 +27,7 @@ const Main = styled.div`
   row-gap: 2rem;
   justify-items: center;
   padding: 1rem 1.5rem;
+  /* position: relative; */
 
   @media (min-width: 600px) {
     grid-template-columns: 1fr 1fr;
@@ -48,6 +56,43 @@ const Main = styled.div`
 //   }
 // `;
 
+const AbsoluteContainer = styled.div`
+  align-items: center;
+  bottom: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  left: 0;
+  /* height: 100vh; */
+  padding: 0.5rem;
+  position: fixed;
+  pointer-events: none;
+  right: 0;
+  top: 0;
+  z-index: 12;
+
+  /* border: solid 1px white; */
+`;
+
+const SuccessContainer = styled.div<IShowUnderSomeCondition>`
+  background-color: #fafafa;
+  border-radius: 0.75rem;
+  /* border: solid 1px #333333; */
+  color: #4e4e4e;
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.4));
+  transform: ${({ show }) =>
+    show ? "scale(1) translateY(0)" : "scale(0) translateY(-10px)"};
+  padding: 0.75rem;
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.2s;
+  transition-timing-function: ease-in-out;
+
+  & > p {
+    font-weight: 500;
+  }
+`;
+
 const WishlistButton = styled(VanillaButton)`
   background-color: #fafafa;
   border-radius: 50%;
@@ -71,13 +116,24 @@ const WishlistButton = styled(VanillaButton)`
 `;
 
 function Content() {
+  const [wishlist, timesWishlistChanged] = useWishlist();
   const { popularMovieList } = usePopularMovie();
-  const navigate = useNavigate();
   const { saveUserPosition, restoreUserPosition } = useUserPositionInList();
+  const [justAdded, setJustAdded] = useState(false);
+  const previousWishlist = useRef(wishlist);
+  const navigate = useNavigate();
+
   useEffect(() => {
     restoreUserPosition();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useNotFirstEffect(() => {
+    if (timesWishlistChanged > 0) {
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1000);
+    }
+  }, [timesWishlistChanged]);
 
   function goToWishlist() {
     saveUserPosition();
@@ -89,7 +145,7 @@ function Content() {
     return (
       <Movie
         key={movie.poster_path}
-        isAdd={true}
+        forMain={true}
         movie={movie}
         backLocationName="Movie List"
       />
@@ -101,6 +157,11 @@ function Content() {
       <WishlistButton onClick={goToWishlist}>
         <FontAwesomeIcon icon={faShoppingCart} />
       </WishlistButton>
+      {/* <AbsoluteContainer>
+        <SuccessContainer show={justAdded}>
+          <p>Movie succesfully added to your wishlist!</p>
+        </SuccessContainer>
+      </AbsoluteContainer> */}
       <Main>{popularMovieList.map(movieMaker)}</Main>
     </>
   );
