@@ -7,11 +7,14 @@ import { locationName, movies } from "../utils/types";
 import {
   useAddToWishlist,
   useRemoveFromWishlist,
+  useWishlist,
 } from "./context/WishlistContext";
 import { useNavigate } from "react-router";
 import { useUserPositionInList } from "./context/PositionInListContext";
 import { BASE_CLIENT_URL } from "../routes";
 import { useBackLocation } from "./context/BackLocationContext";
+import useNotFirstEffect from "../customHooks/useNotFirstEffect";
+import { useEffect, useState } from "react";
 
 interface IWishlistButtonProps {
   isAdd: boolean;
@@ -113,6 +116,7 @@ const MovieButton = styled(VanillaButton)`
 const WishlistButton = styled(MovieButton)<IWishlistButtonProps>`
   background-color: ${({ isAdd }) => (isAdd ? "#00b0e6" : "#e50914")};
   color: #fafafa;
+  display: ${({ show }) => (show ? "initial" : "none")};
 
   transition: all 0.2s;
 
@@ -137,13 +141,12 @@ function Movie({
   movie,
   isAdd,
   backLocationName,
-  isInWishlist,
 }: {
   movie: movies;
   isAdd: boolean;
   backLocationName: locationName;
-  isInWishlist?: (arg1: movies) => boolean;
 }) {
+  const [wishlist, timesWishlistChanged] = useWishlist();
   const { setSelectedMovie } = useSelectedMovieContext();
   const addToWishlist = useAddToWishlist();
   const { setBackLocation } = useBackLocation();
@@ -151,6 +154,11 @@ function Movie({
   const { poster_path, title, release_date } = movie;
   const navigate = useNavigate();
   const { saveUserPosition } = useUserPositionInList();
+  const [isInWishlist, setIsInWishlist] = useState(false);
+
+  useEffect(() => {
+    setIsInWishlist(checkIfIsInWishlist());
+  }, [wishlist]);
 
   function changeToSummary(movie: movies) {
     saveUserPosition();
@@ -168,6 +176,22 @@ function Movie({
     }
   }
 
+  function checkIfIsInWishlist() {
+    if (
+      wishlist.filter((wishlistMovie) => movie.title === wishlistMovie.title)
+        .length === 0
+    ) {
+      // console.log(movie.title);
+      // console.log(wishlist);
+      // console.log(
+      //   wishlist.filter((wishlistMovie) => movie.id === wishlistMovie.id)
+      // );
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   return (
     <Main>
       <ImageContainer>
@@ -176,7 +200,7 @@ function Movie({
           <WishlistButton
             onClick={addOrRemoveFromWishlist()}
             isAdd={isAdd}
-            show={isInWishlist === undefined ? true : isInWishlist(movie)}
+            show={!isInWishlist}
           >
             {isAdd ? "Add to" : "Remove from"} Wishlist
           </WishlistButton>
@@ -193,7 +217,7 @@ function Movie({
         <WishlistButton
           onClick={addOrRemoveFromWishlist()}
           isAdd={isAdd}
-          show={isInWishlist === undefined ? true : isInWishlist(movie)}
+          show={!isInWishlist}
         >
           {isAdd ? "Add to" : "Remove from"} Wishlist
         </WishlistButton>

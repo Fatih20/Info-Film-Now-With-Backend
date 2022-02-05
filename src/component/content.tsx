@@ -135,17 +135,6 @@ function Content() {
     }
   }, [timesWishlistChanged]);
 
-  function isInWishlist(givenMovie: movies) {
-    if (
-      wishlist.filter((wishlistMovie) => givenMovie.id === wishlistMovie.id)
-        .length === 0
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   function goToWishlist() {
     saveUserPosition();
     window.scrollTo(0, 0);
@@ -158,7 +147,6 @@ function Content() {
         key={movie.poster_path}
         isAdd={true}
         movie={movie}
-        isInWishlist={isInWishlist}
         backLocationName="Movie List"
       />
     );
